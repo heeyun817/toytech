@@ -35,7 +35,7 @@ public class Comment {
     CommentDto commentDto = new CommentDto();
     commentDto.setId(id);
     commentDto.setText(text);
-    commentDto.setMemberDto(member.toDto());
+//    commentDto.setMemberDto(member.toDto());
     commentDto.setCommunityDto(community.toDto());
     return commentDto;
   }
