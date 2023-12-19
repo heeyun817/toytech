@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,7 +40,7 @@ public class Member {
   @Column(name = "password", nullable = false, length = 50)
   private String password;
 
-  @Column(name = "name", nullable = false, length = 50, unique = true)
+  @Column(name = "name", nullable = false, length = 50)
   private String name;
 
   @Column(name = "date_birth", nullable = false)
@@ -62,4 +63,15 @@ public class Member {
 
   @Column(name = "status", nullable = false, length = 1)
   private Status status;
+
+  @Builder
+  public Member(String email, String password, String name, LocalDateTime dateBirth,
+      Address address) {
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.dateBirth = dateBirth;
+    this.address = address;
+    this.status = Status.MEMBER;
+  }
 }
