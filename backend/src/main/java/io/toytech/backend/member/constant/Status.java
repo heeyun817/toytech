@@ -1,5 +1,8 @@
 package io.toytech.backend.member.constant;
 
+import lombok.Getter;
+
+@Getter
 public enum Status {
   ADMIN("A"),
   MEMBER("M"),
@@ -14,7 +17,4 @@ public enum Status {
     this.code = code;
   }
 
-  public String getCode() {
-    return code;
-  }
 }
