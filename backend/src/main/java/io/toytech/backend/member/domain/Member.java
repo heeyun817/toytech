@@ -23,6 +23,8 @@ public class Member {
   @Column(name = "member_id")
   private Long id;
 
+  private String name;
+
   @OneToMany(mappedBy = "member")
   private List<Community> communities = new ArrayList<>();
 
@@ -32,6 +34,8 @@ public class Member {
 
   public static Member createMember() {
     Member member = new Member();
+    member.name = "userA";
     return member;
   }
+
 }

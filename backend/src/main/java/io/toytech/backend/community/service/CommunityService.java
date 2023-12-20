@@ -17,12 +17,11 @@ public class CommunityService {
   private final CommunityRepository communityRepository;
   private final MemberRepository memberRepository;
 
+  @Transactional
   public CommunityDto findOne(Long id) {
     Community community = communityRepository.findById(id).get();
-
-    CommunityDto communityDto = community.toDto();
-
-    return communityDto;
+    community.updateView(); //조회수 1 증가
+    return new CommunityDto(community);
   }
 
   @Transactional

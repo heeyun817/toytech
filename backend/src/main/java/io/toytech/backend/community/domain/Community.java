@@ -72,12 +72,8 @@ public class Community {
     communityType = communityDto.getCommunityType();
   }
 
-  public CommunityDto toDto() {
-    CommunityDto communityDto = new CommunityDto();
-    communityDto.setId(id);
-    communityDto.setTitle(title);
-    communityDto.setContent(content);
-    return communityDto;
+  public void updateView() {
+    this.views += 1;
   }
 
 }
