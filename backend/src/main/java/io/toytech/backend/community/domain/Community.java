@@ -53,6 +53,7 @@ public class Community {
   @OneToMany(mappedBy = "community")
   private List<Comment> comments = new ArrayList<>();
 
+
   public static Community createCommunity(CommunityDto communityDto, Member member) {
     Community community = new Community();
     community.member = member;
