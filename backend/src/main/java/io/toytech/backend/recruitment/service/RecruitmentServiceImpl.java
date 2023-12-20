@@ -19,4 +19,5 @@ public class RecruitmentServiceImpl implements RecruitmentService{
   public Iterable<Recruitment> findAll() {
     return repository.findAll();
   }
+
 }

@@ -6,13 +6,16 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.*;
 
 @Entity
 @Table(name = "recruitment")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Recruitment {
   @Id
@@ -34,7 +37,7 @@ public class Recruitment {
 
   // 태그
   @OneToMany(mappedBy = "recruitment")
-  private Set<RecruitmentTag> tags = new HashSet<>();
+  private List<RecruitmentTag> recruitmentTags;
 
   // 작성일
   @CreationTimestamp
