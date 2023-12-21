@@ -1,7 +1,10 @@
 package io.toytech.backend.recruitment.controller;
 
 import io.toytech.backend.recruitment.domain.Recruitment;
+import io.toytech.backend.recruitment.domain.Tag;
 import io.toytech.backend.recruitment.service.RecruitmentService;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +21,12 @@ public class RecruitmentController {
     this.service = service;
   }
 
+  // 모든 글 조회
   @GetMapping("/recruitments")
-  public Iterable<Recruitment> getAllRecruitments() {
+  public Map<Recruitment, List<Tag>> getAllRecruitments() {
     return service.findAll();
   }
+
+
 
 }

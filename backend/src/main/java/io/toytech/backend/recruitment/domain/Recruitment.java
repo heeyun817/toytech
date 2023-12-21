@@ -37,7 +37,7 @@ public class Recruitment {
 
   // 태그
   @OneToMany(mappedBy = "recruitment")
-  private List<RecruitmentTag> recruitmentTags;
+  private Set<RecruitmentTag> recruitmentTags;
 
   // 작성일
   @CreationTimestamp
@@ -58,7 +58,7 @@ public class Recruitment {
   private int views;
 
   // 댓글
-  //  @ManyToOne(fetch = FetchType.LAZY)
+  //  @OneToMany(fetch = FetchType.LAZY)
 //  @Column(name = "comment")
 //  private List<Comment> comments;
 

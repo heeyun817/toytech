@@ -1,5 +1,6 @@
 package io.toytech.backend.recruitment.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,11 +26,13 @@ public class RecruitmentTag {
   @Column(name = "id", updatable = false)
   private long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ToString.Exclude
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "recruitment_id")
   private Recruitment recruitment;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ToString.Exclude
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "tag_id")
   private Tag tag;
 
