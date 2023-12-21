@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,10 @@ public class RecruitmentController {
     return service.findAll();
   }
 
-
+  // 특정 글 조회
+  @GetMapping("/recruitments/{id}")
+  public Map<Recruitment, List<Tag>> getRecruitmentById(@PathVariable Long id) {
+    return service.findById(id);
+  }
 
 }

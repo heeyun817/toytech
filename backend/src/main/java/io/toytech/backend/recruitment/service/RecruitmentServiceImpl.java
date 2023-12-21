@@ -46,12 +46,19 @@ public class RecruitmentServiceImpl implements RecruitmentService{
   }
 
   // 게시글 id별 조회
-  // 받은 게시글 id로 해당 게시글 조회
-  // 받은 게시글 id(pk)를 recruitmentTagRepository에 전달
-  // 거기서 해당 게시글이 있는 RecruitmentTag반환
-  // 거기 있는 tag꺼내서 list에 담음
-  // map에 태그 list랑 게시글 담아서 return
-
-
+  @Override
+  public Map<Recruitment, List<Tag>> findById(Long Id) {
+    Optional<Recruitment> optionalRecruitment = recruitmentRepository.findById(Id);
+    Recruitment recruitment = optionalRecruitment.get();
+    Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
+    List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(Id);
+    List<Tag> tags = new ArrayList<>();
+    for (RecruitmentTag tagId : tagIds) {
+      Tag tag = tagId.getTag();
+      tags.add(tag);
+    }
+    recruitmentTagMap.put(recruitment, tags);
+    return recruitmentTagMap;
+  }
 
 }

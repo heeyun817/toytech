@@ -8,6 +8,6 @@ import java.util.Map;
 public interface RecruitmentService {
   Map<Recruitment, List<Tag>> findAll();
 
-
+  Map<Recruitment, List<Tag>> findById(Long Id);
 
 }
