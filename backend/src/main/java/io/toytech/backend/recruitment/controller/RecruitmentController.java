@@ -22,10 +22,16 @@ public class RecruitmentController {
     this.service = service;
   }
 
-  // 모든 글 조회
+  // 모든 글 조회 (최신순)
   @GetMapping("/recruitments")
   public Map<Recruitment, List<Tag>> getAllRecruitments() {
     return service.findAll();
+  }
+
+  // 모든 글 조회 (조회순)
+  @GetMapping("/recruitments/view")
+  public Map<Recruitment, List<Tag>> getAllRecruitmentsByView() {
+    return service.findAllByView();
   }
 
   // 특정 글 조회

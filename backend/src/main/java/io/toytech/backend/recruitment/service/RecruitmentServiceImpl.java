@@ -26,10 +26,30 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     this.tagRepository = tagRepository;
   }
 
-  // 전체 글 조회
+  // 전체 글 조회 (최신순)
   @Override
   public Map<Recruitment, List<Tag>> findAll() {
     Iterable<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc();
+
+    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
+
+    for (Recruitment recruitment : allRecruitments) {
+      long recruitmentId = recruitment.getId();
+      List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(recruitmentId);
+      List<Tag> tags = new ArrayList<>();
+      for (RecruitmentTag tagId : tagIds) {
+        Tag tag = tagId.getTag();
+        tags.add(tag);
+      }
+      recruitmentTagMap.put(recruitment, tags);
+    }
+    return recruitmentTagMap;
+  }
+
+  // 전체 글 조회 (조회순)
+  @Override
+  public Map<Recruitment, List<Tag>> findAllByView() {
+    Iterable<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByViewDesc();
 
     Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
 

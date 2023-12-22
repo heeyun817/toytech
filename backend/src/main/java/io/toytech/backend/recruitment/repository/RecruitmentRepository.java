@@ -12,12 +12,13 @@ import org.springframework.stereotype.Repository;
 public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> {
 
   List<Recruitment> findAllByOrderByCreatedAtDesc();
+
+  List<Recruitment> findAllByOrderByViewDesc();
+
   Optional<Recruitment> findById(long id);
   @Modifying
   @Query("update Recruitment r set r.view = r.view + 1 where r.id = :id")
   int updateView(Long id);
 
-//  @Query("SELECT r FROM Recruitment r ORDER BY r.view DESC")
-//  Optional<Recruitment> findAllByView();
 
 }
