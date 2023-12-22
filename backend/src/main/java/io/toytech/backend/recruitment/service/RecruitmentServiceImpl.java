@@ -29,9 +29,9 @@ public class RecruitmentServiceImpl implements RecruitmentService{
   // 전체 글 조회
   @Override
   public Map<Recruitment, List<Tag>> findAll() {
-    Iterable<Recruitment> allRecruitments = recruitmentRepository.findAll();
+    Iterable<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc();
 
-    Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
+    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
 
     for (Recruitment recruitment : allRecruitments) {
       long recruitmentId = recruitment.getId();
