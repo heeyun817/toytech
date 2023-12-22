@@ -41,21 +41,21 @@ public class Recruitment {
 
   // 작성일
   @CreationTimestamp
-  @Column(name = "createAt", nullable = false, updatable = false)
-  private LocalDateTime createAt;
+  @Column(name = "createdAt", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
 
   // 수정일
   @UpdateTimestamp
-  @Column(name = "updateAt", nullable = false)
-  private LocalDateTime updateAt;
+  @Column(name = "updatedAt", nullable = false)
+  private LocalDateTime updatedAt;
 
   // 마감여부
   @Column(name = "active", nullable = false)
   private boolean active;
 
   // 조회수
-  @Column(name = "views", nullable = false)
-  private int views;
+  @Column(name = "view",columnDefinition = "integer default 0", nullable = false)
+  private int view;
 
   // 댓글
   //  @OneToMany(fetch = FetchType.LAZY)

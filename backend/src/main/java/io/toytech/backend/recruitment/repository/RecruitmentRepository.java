@@ -3,9 +3,14 @@ package io.toytech.backend.recruitment.repository;
 import io.toytech.backend.recruitment.domain.Recruitment;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> {
   Optional<Recruitment> findById(long id);
+  @Modifying
+  @Query("update Recruitment r set r.view = r.view + 1 where r.id = :id")
+  int updateView(Long id);
 }

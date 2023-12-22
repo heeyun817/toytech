@@ -31,6 +31,7 @@ public class RecruitmentController {
   // 특정 글 조회
   @GetMapping("/recruitments/{id}")
   public Map<Recruitment, List<Tag>> getRecruitmentById(@PathVariable Long id) {
+    service.updateView(id);
     return service.findById(id);
   }
 

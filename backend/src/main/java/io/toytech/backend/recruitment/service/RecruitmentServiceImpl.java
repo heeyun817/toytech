@@ -6,6 +6,7 @@ import io.toytech.backend.recruitment.domain.Tag;
 import io.toytech.backend.recruitment.repository.RecruitmentRepository;
 import io.toytech.backend.recruitment.repository.RecruitmentTagRepository;
 import io.toytech.backend.recruitment.repository.TagRepository;
+import jakarta.transaction.Transactional;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,11 +48,11 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 게시글 id별 조회
   @Override
-  public Map<Recruitment, List<Tag>> findById(Long Id) {
-    Optional<Recruitment> optionalRecruitment = recruitmentRepository.findById(Id);
-    Recruitment recruitment = optionalRecruitment.get();
+  public Map<Recruitment, List<Tag>> findById(Long id) {
+    Optional<Recruitment> optionalRecruitment = recruitmentRepository.findById(id);
+    Recruitment recruitment = optionalRecruitment.get(); //java.util.NoSuchElementException
     Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
-    List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(Id);
+    List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(id);
     List<Tag> tags = new ArrayList<>();
     for (RecruitmentTag tagId : tagIds) {
       Tag tag = tagId.getTag();
@@ -60,5 +61,24 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     recruitmentTagMap.put(recruitment, tags);
     return recruitmentTagMap;
   }
+
+  // 글 작성
+  // 글, tag 입력 받음 (List or Set)
+  // 글 save (Recruitment recruitment = recruitmentRepository.save();)
+  // tag입력 받은 것들(Set<TagDto> tagDto) 중에서 for문으로 (for (TagDto tag : tagDto))
+  // Tag tags=tagRepository.findByname() tag이름 있는지 확인
+  // if 없으면 (isEmpty())
+  //  tagRepository.save
+  //  RecruitmentTagRepository.save (새로 추가된 tagId랑 추가하는 게시글)
+  // else 있으면
+  //  RecruitmentTagRepository.save(해당 tags랑 추가하는 게시글)
+
+  // 조회수 증가
+  @Override
+  @Transactional
+  public int updateView(Long id){
+    return recruitmentRepository.updateView(id);
+  }
+
 
 }

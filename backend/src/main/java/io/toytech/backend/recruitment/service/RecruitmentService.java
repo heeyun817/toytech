@@ -10,4 +10,6 @@ public interface RecruitmentService {
 
   Map<Recruitment, List<Tag>> findById(Long Id);
 
+  int updateView(Long id);
+
 }
