@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,7 +26,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(of = {"name", "email"})
 public class Member {
 
@@ -34,6 +35,7 @@ public class Member {
   @Column(name = "id", updatable = false)
   private Long id;
 
+  @Email(message = "이메일 형식에 맞지 않습니다.")
   @Column(name = "email", nullable = false, unique = true, updatable = false, length = 50)
   private String email;
 
@@ -43,6 +45,7 @@ public class Member {
   @Column(name = "name", nullable = false, length = 50)
   private String name;
 
+  @Past
   @Column(name = "date_birth", nullable = false)
   private LocalDateTime dateBirth;
 
@@ -66,12 +69,12 @@ public class Member {
 
   @Builder
   public Member(String email, String password, String name, LocalDateTime dateBirth,
-      Address address) {
+      Address address, Status status) {
     this.email = email;
     this.password = password;
     this.name = name;
     this.dateBirth = dateBirth;
     this.address = address;
-    this.status = Status.MEMBER;
+    this.status = status;
   }
 }
