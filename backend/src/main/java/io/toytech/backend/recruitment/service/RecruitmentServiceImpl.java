@@ -83,15 +83,23 @@ public class RecruitmentServiceImpl implements RecruitmentService{
   }
 
   // 글 작성
-  // 글, tag 입력 받음 (List or Set)
-  // 글 save (Recruitment recruitment = recruitmentRepository.save();)
-  // tag입력 받은 것들(Set<TagDto> tagDto) 중에서 for문으로 (for (TagDto tag : tagDto))
-  // Tag tags=tagRepository.findByname() tag이름 있는지 확인
-  // if 없으면 (isEmpty())
-  //  tagRepository.save
-  //  RecruitmentTagRepository.save (새로 추가된 tagId랑 추가하는 게시글)
-  // else 있으면
-  //  RecruitmentTagRepository.save(해당 tags랑 추가하는 게시글)
+  @Override
+  public Map<Recruitment, List<Tag>> createRecruitment(Recruitment recruitment, Set<Tag> tags){
+    Recruitment newrecruitment = recruitmentRepository.save(recruitment);
+    Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
+    List<Tag> taglist = new ArrayList<>();
+    for (Tag tag : tags) {
+      // 태그 이름으로 검색
+      Tag tag1 = tagRepository.findByName(tag.getName()).orElseGet(()-> tagRepository.save(tag));
+      recruitmentTagRepository.save(RecruitmentTag.builder()
+          .recruitment(newrecruitment)
+          .tag(tag1)
+          .build());
+      taglist.add(tag1);
+      }
+    recruitmentTagMap.put(recruitment, taglist);
+    return recruitmentTagMap;
+    }
 
   // 조회수 증가
   @Override

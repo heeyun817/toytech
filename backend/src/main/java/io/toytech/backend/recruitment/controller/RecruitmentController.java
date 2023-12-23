@@ -2,10 +2,13 @@ package io.toytech.backend.recruitment.controller;
 
 import io.toytech.backend.recruitment.domain.Recruitment;
 import io.toytech.backend.recruitment.domain.Tag;
+import io.toytech.backend.recruitment.dto.RecruitmentDto;
 import io.toytech.backend.recruitment.service.RecruitmentService;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +42,15 @@ public class RecruitmentController {
   public Map<Recruitment, List<Tag>> getRecruitmentById(@PathVariable Long id) {
     service.updateView(id);
     return service.findById(id);
+  }
+
+  // 글 작성
+  @PostMapping("/recruitments")
+  public Map<Recruitment, List<Tag>> createRecruitment(@RequestBody RecruitmentDto recruitmentDto) {
+    Recruitment recruitment = recruitmentDto.getRecruitment();
+    Set<Tag> tags = recruitmentDto.getTags();
+
+    return service.createRecruitment(recruitment, tags);
   }
 
 }
