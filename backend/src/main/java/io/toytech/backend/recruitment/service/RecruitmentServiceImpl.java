@@ -149,6 +149,26 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     throw new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id);
   }
 
+  // 글 삭제
+  @Override
+  public void deleteRecruitment(Long id) {
+    Optional<Recruitment> optionalRecruitment = recruitmentRepository.findById(id);
+    if (optionalRecruitment.isPresent()) {
+      Recruitment recruitment = optionalRecruitment.get();
+
+      // 기존 관계 null 처리 (삭제하지 않음)
+      List<RecruitmentTag> tags = recruitmentTagRepository.findByRecruitmentId(id);
+      for (RecruitmentTag tag : tags) {
+        tag.setRecruitment(null);
+        tag.setTag(null);
+        recruitmentTagRepository.save(tag);
+      }
+
+      recruitmentRepository.delete(recruitment);
+
+    } else throw new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id);
+  }
+
   // 조회수 증가
   @Override
   @Transactional

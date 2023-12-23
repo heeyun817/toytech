@@ -21,6 +21,10 @@ public interface RecruitmentService {
 
   // 글 수정
   Map<Recruitment, List<Tag>> updateRecruitment(Long id, Recruitment recruitment, Set<Tag> tags);
+
+  // 글 삭제
+  void deleteRecruitment(Long id);
+
   // 조회수 증가
   int updateView(Long id);
 
