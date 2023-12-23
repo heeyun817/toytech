@@ -71,6 +71,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
   @Override
   public Map<Recruitment, List<Tag>> findById(Long id) {
     Optional<Recruitment> optionalRecruitment = recruitmentRepository.findById(id);
+    if (optionalRecruitment.isPresent()) {
     Recruitment recruitment = optionalRecruitment.get(); //java.util.NoSuchElementException
     Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
     List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(id);
@@ -81,6 +82,8 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     }
     recruitmentTagMap.put(recruitment, tags);
     return recruitmentTagMap;
+    }
+    throw new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id);
   }
 
   // 글 작성
