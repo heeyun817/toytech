@@ -16,9 +16,11 @@ public interface RecruitmentService {
   // 게시글 id별 조회
   Map<Recruitment, List<Tag>> findById(Long Id);
 
-  //글 작성
+  // 글 작성
   Map<Recruitment, List<Tag>> createRecruitment(Recruitment recruitment, Set<Tag> tags);
 
+  // 글 수정
+  Map<Recruitment, List<Tag>> updateRecruitment(Long id, Recruitment recruitment, Set<Tag> tags);
   // 조회수 증가
   int updateView(Long id);
 

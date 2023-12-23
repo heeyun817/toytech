@@ -6,6 +6,7 @@ import io.toytech.backend.recruitment.domain.Tag;
 import io.toytech.backend.recruitment.repository.RecruitmentRepository;
 import io.toytech.backend.recruitment.repository.RecruitmentTagRepository;
 import io.toytech.backend.recruitment.repository.TagRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,50 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     recruitmentTagMap.put(recruitment, taglist);
     return recruitmentTagMap;
     }
+
+  // 글 수정
+  @Override
+  public Map<Recruitment, List<Tag>> updateRecruitment(Long id, Recruitment recruitment,Set<Tag> tags) {
+    Optional<Recruitment> optionalRecruitment = recruitmentRepository.findById(id);
+    if (optionalRecruitment.isPresent()) {
+      Recruitment oldRecruitment = optionalRecruitment.get();
+
+      // 글과 연결된 기존 RecruitmentTag 가져오기
+      List<RecruitmentTag> oldTags = recruitmentTagRepository.findByRecruitmentId(id);
+
+      // 기존 관계 null 처리 (삭제하지 않음)
+      for (RecruitmentTag recruitmentTag : oldTags) {
+        recruitmentTag.setRecruitment(null);
+        recruitmentTag.setTag(null);
+        recruitmentTagRepository.save(recruitmentTag);
+      }
+
+      // 글 내용 업데이트
+      if(recruitment.getTitle() != null)
+        oldRecruitment.setTitle(recruitment.getTitle());
+      if(recruitment.getContent() != null)
+        oldRecruitment.setContent(recruitment.getContent());
+      oldRecruitment.setActive(recruitment.isActive());
+
+      Recruitment updatedRecruitment = recruitmentRepository.save(oldRecruitment);
+
+      // 새로운 태그 추가
+      List<Tag> updatedTags = new ArrayList<>();
+      for (Tag tag : tags) {
+        Tag newTag = tagRepository.findByName(tag.getName()).orElseGet(() -> tagRepository.save(tag));
+        recruitmentTagRepository.save(RecruitmentTag.builder()
+            .recruitment(updatedRecruitment)
+            .tag(newTag)
+            .build());
+        updatedTags.add(newTag);
+      }
+
+      Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
+      recruitmentTagMap.put(updatedRecruitment, updatedTags);
+      return recruitmentTagMap;
+    }
+    throw new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id);
+  }
 
   // 조회수 증가
   @Override

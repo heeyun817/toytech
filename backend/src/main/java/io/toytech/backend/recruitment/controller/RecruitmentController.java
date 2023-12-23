@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 public class RecruitmentController {
@@ -51,6 +53,17 @@ public class RecruitmentController {
     Set<Tag> tags = recruitmentDto.getTags();
 
     return service.createRecruitment(recruitment, tags);
+  }
+
+  // 글 수정
+  @PutMapping("/recruitments/{id}")
+  public ResponseEntity<Map<Recruitment, List<Tag>>> updateRecruitment(@PathVariable Long id, @RequestBody RecruitmentDto recruitmentDto) {
+    try {
+      Map<Recruitment, List<Tag>> updatedRecruitment = service.updateRecruitment(id, recruitmentDto.getRecruitment(), recruitmentDto.getTags());
+      return new ResponseEntity<>(updatedRecruitment, HttpStatus.OK);
+    } catch (EntityNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
 }
