@@ -85,4 +85,10 @@ public class RecruitmentController {
     return service.search(keyword);
   }
 
+  // 태그 검색
+  @GetMapping("/recruitments/search/{tag}")
+  public Map<Recruitment, List<Tag>> getRecruitmentByTag(@PathVariable String tag) {
+    return service.findByTag(tag);
+  }
+
 }

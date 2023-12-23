@@ -30,4 +30,7 @@ public interface RecruitmentService {
 
   // 검색
   Map<Recruitment, List<Tag>> search(String keyword);
+
+  // 태그 검색
+  Map<Recruitment, List<Tag>> findByTag(String tagName);
 }

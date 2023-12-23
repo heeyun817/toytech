@@ -196,4 +196,23 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     return recruitmentTagMap;
   }
 
+  // 태그로 글 검색
+  @Override
+  public Map<Recruitment, List<Tag>> findByTag(String tagName) {
+    Tag tag = tagRepository.findByName(tagName).orElseThrow(() -> new EntityNotFoundException("해당 태그가 없습니다: " + tagName));
+    List<RecruitmentTag> recruitmentTags = recruitmentTagRepository.findByTag(tag);
+    Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
+    for (RecruitmentTag recruitmentTag : recruitmentTags) {
+      Recruitment recruitment = recruitmentTag.getRecruitment();
+      List<Tag> tags = new ArrayList<>();
+      List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(recruitment.getId());
+      for (RecruitmentTag tagId : tagIds) {
+        Tag tag1 = tagId.getTag();
+        tags.add(tag1);
+      }
+      recruitmentTagMap.put(recruitment, tags);
+    }
+    return recruitmentTagMap;
+  }
+
 }
