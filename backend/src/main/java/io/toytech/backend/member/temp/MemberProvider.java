@@ -12,24 +12,30 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MemberProvider {
 
+  private static final int COUNT = 3;
+
   @Bean
   public ApplicationRunner test(MemberRepository memberRepository) {
     return args -> {
-      Address address = Address.builder()
-          .state("경기도")
-          .city("부천시")
-          .street("신흥로 000-0")
-          .zipCode("00000")
-          .build();
 
-      memberRepository.save(Member.builder()
-          .email("test@test")
-          .password("test")
-          .name("상우")
-          .dateBirth(LocalDateTime.now())
-          .address(address)
-          .status(Status.MEMBER)
-          .build());
+      for (int i = 0; i < COUNT; i++) {
+        Address address = Address.builder()
+            .state("경기도")
+            .city("부천시")
+            .street("신흥로 000-0")
+            .zipCode("0000" + i)
+            .build();
+
+        memberRepository.save(Member.builder()
+            .email("test" + i + "@test")
+            .password("test" + i)
+            .name("상우" + i)
+            .dateBirth(LocalDateTime.now())
+            .address(address)
+            .status(Status.MEMBER)
+            .build());
+      }
+
     };
   }
 }

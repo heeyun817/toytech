@@ -30,11 +30,27 @@ public class MemberController {
     this.memberService = memberService;
   }
 
+  /**
+   * 모든 엔터티를 검색한다.
+   *
+   * @return 엔터티 모델 목록
+   */
   @GetMapping()
-  public List<Member> findAll() {
-    return memberService.findAll();
+  public List<EntityModel<Member>> findAll() {
+    return memberService.findAll().stream().map(member -> {
+      EntityModel<Member> entityModel = EntityModel.of(member);
+      WebMvcLinkBuilder link = linkTo(methodOn(getClass()).findById(member.getId()));
+      entityModel.add(link.withSelfRel());
+      return entityModel;
+    }).toList();
   }
 
+  /**
+   * ID로 특정 엔터티를 검색한다.
+   *
+   * @param id 검색할 엔터티의 ID
+   * @return 검색된 엔터티를 포함하는 EntityModel
+   */
   @GetMapping("/{id}")
   public EntityModel<Member> findById(@PathVariable("id") Long id) {
     Optional<Member> member = memberService.findById(id);
@@ -47,15 +63,18 @@ public class MemberController {
     return entityModel;
   }
 
-//  @GetMapping("/{name}")
-//  public List<Member> findByName(@PathVariable("name") String name) {
-//    return memberService.findByName(name);
-//  }
-
+  /**
+   * 새 회원을 생성하고 생성된 회원의 위치와 함께 ResponseEntity를 반환한다..
+   *
+   * @param member 생성될 Member 객체
+   * @return 생성된 멤버의 위치가 포함된 ResponseEntity
+   */
   @PostMapping()
   public ResponseEntity<Object> create(@RequestBody Member member) {
     Member savedMember = memberService.create(member);
     URI location = linkTo(MemberController.class).slash(savedMember.getId()).toUri();
     return ResponseEntity.created(location).build();
   }
+
+
 }
