@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,6 +75,12 @@ public class MemberController {
     Member savedMember = memberService.create(member);
     URI location = linkTo(MemberController.class).slash(savedMember.getId()).toUri();
     return ResponseEntity.created(location).build();
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
+    memberService.delete(id);
+    return ResponseEntity.noContent().build();
   }
 
 
