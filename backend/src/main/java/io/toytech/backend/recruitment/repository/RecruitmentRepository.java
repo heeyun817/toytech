@@ -20,5 +20,6 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> 
   @Query("update Recruitment r set r.view = r.view + 1 where r.id = :id")
   int updateView(Long id);
 
+  List<Recruitment> findByTitleContaining(String keyword);
 
 }

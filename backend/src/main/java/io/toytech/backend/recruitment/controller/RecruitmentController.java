@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -76,6 +77,12 @@ public class RecruitmentController {
     } catch (EntityNotFoundException e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+  }
+
+  // 검색
+  @GetMapping("/recruitments/search")
+  public Map<Recruitment, List<Tag>> searchRecruitmentByTitle(@RequestParam String keyword) {
+    return service.search(keyword);
   }
 
 }

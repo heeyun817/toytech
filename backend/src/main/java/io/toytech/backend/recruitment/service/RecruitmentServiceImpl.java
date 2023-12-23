@@ -176,5 +176,24 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     return recruitmentRepository.updateView(id);
   }
 
+  // 검색 기능
+  @Override
+  public Map<Recruitment, List<Tag>> search(String keyword) {
+    Iterable<Recruitment> recruitments = recruitmentRepository.findByTitleContaining(keyword);
+
+    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
+
+    for (Recruitment recruitment : recruitments) {
+      long recruitmentId = recruitment.getId();
+      List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(recruitmentId);
+      List<Tag> tags = new ArrayList<>();
+      for (RecruitmentTag tagId : tagIds) {
+        Tag tag = tagId.getTag();
+        tags.add(tag);
+      }
+      recruitmentTagMap.put(recruitment, tags);
+    }
+    return recruitmentTagMap;
+  }
 
 }

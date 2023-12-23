@@ -28,4 +28,6 @@ public interface RecruitmentService {
   // 조회수 증가
   int updateView(Long id);
 
+  // 검색
+  Map<Recruitment, List<Tag>> search(String keyword);
 }
