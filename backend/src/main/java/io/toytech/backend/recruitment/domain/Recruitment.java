@@ -1,6 +1,7 @@
 package io.toytech.backend.recruitment.domain;
 
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -60,9 +61,10 @@ public class Recruitment {
   private int view;
 
   // 댓글
-  //  @OneToMany(fetch = FetchType.LAZY)
-//  @Column(name = "comment")
+//  @OneToMany(mappedBy = "recruitment", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 //  private List<Comment> comments;
+  @Column(name = "comment",columnDefinition = "integer default 0", nullable = false)
+  private int comment;
 
 }
 

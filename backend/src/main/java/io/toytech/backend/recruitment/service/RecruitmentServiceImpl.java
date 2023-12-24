@@ -42,6 +42,11 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         Tag tag = tagId.getTag();
         tags.add(tag);
       }
+
+      // 댓글 개수
+//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
+//      recruitment.setComment(commentCnt);
+
       recruitmentTagMap.put(recruitment, tags);
     }
     return recruitmentTagMap;
@@ -62,6 +67,11 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         Tag tag = tagId.getTag();
         tags.add(tag);
       }
+
+      // 댓글 개수
+//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
+//      recruitment.setComment(commentCnt);
+
       recruitmentTagMap.put(recruitment, tags);
     }
     return recruitmentTagMap;
@@ -80,6 +90,11 @@ public class RecruitmentServiceImpl implements RecruitmentService{
       Tag tag = tagId.getTag();
       tags.add(tag);
     }
+
+      // 댓글 개수
+//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
+//      recruitment.setComment(commentCnt);
+
     recruitmentTagMap.put(recruitment, tags);
     return recruitmentTagMap;
     }
@@ -191,6 +206,11 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         Tag tag = tagId.getTag();
         tags.add(tag);
       }
+
+      // 댓글 개수
+//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
+//      recruitment.setComment(commentCnt);
+
       recruitmentTagMap.put(recruitment, tags);
     }
     return recruitmentTagMap;
@@ -210,6 +230,11 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         Tag tag1 = tagId.getTag();
         tags.add(tag1);
       }
+
+      // 댓글 개수
+//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
+//      recruitment.setComment(commentCnt);
+
       recruitmentTagMap.put(recruitment, tags);
     }
     return recruitmentTagMap;
