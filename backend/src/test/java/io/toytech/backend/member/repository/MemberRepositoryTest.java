@@ -17,8 +17,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DataJpaTest
 class MemberRepositoryTest {
 
+  private final MemberRepository memberRepository;
+
   @Autowired
-  private MemberRepository memberRepository;
+  public MemberRepositoryTest(MemberRepository memberRepository) {
+    this.memberRepository = memberRepository;
+  }
 
   @BeforeEach
   void setUp() {
@@ -45,7 +49,7 @@ class MemberRepositoryTest {
   void testFindByName() {
     // 테스트 사례 1: 기존 이름 검색
     List<Member> result1 = memberRepository.findByName("상우");
-    assertThat(result1.size()).isEqualTo(1);
+    assertThat(result1).hasSize(1);
     assertThat(result1.get(0).getName()).isEqualTo("상우");
 
     // 테스트 사례 2: 일치하는 멤버가 없는 이름 검색
