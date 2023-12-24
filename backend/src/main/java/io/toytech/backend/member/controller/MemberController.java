@@ -38,12 +38,14 @@ public class MemberController {
    */
   @GetMapping()
   public List<EntityModel<Member>> findAll() {
-    return memberService.findAll().stream().map(member -> {
-      EntityModel<Member> entityModel = EntityModel.of(member);
-      WebMvcLinkBuilder link = linkTo(methodOn(getClass()).findById(member.getId()));
-      entityModel.add(link.withSelfRel());
-      return entityModel;
-    }).toList();
+    return memberService.findAll()
+        .stream()
+        .map(member -> {
+          EntityModel<Member> entityModel = EntityModel.of(member);
+          WebMvcLinkBuilder link = linkTo(methodOn(getClass()).findById(member.getId()));
+          entityModel.add(link.withSelfRel());
+          return entityModel;
+        }).toList();
   }
 
   /**
