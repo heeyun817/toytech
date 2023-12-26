@@ -67,14 +67,22 @@ public class Member {
   @Column(name = "status", nullable = false, length = 1)
   private Status status;
 
+  @Embedded
+  @AttributeOverride(name = "likesGivenCount", column = @Column(name = "likes_given_count"))
+  @AttributeOverride(name = "dislikesGivenCount", column = @Column(name = "dislikes_given_count"))
+  @AttributeOverride(name = "totalEvalScore", column = @Column(name = "total_eval_score"))
+  @AttributeOverride(name = "totalLikesScore", column = @Column(name = "total_likes_score"))
+  private MemberRatings memberRatings;
+
   @Builder
   public Member(String email, String password, String name, LocalDateTime dateBirth,
-      Address address, Status status) {
+      Address address, Status status, MemberRatings memberRatings) {
     this.email = email;
     this.password = password;
     this.name = name;
     this.dateBirth = dateBirth;
     this.address = address;
     this.status = status;
+    this.memberRatings = memberRatings;
   }
 }
