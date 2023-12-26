@@ -17,6 +17,7 @@ public class CommunityService {
   private final CommunityRepository communityRepository;
   private final MemberRepository memberRepository;
 
+
   @Transactional
   public CommunityDto findOne(Long id) {
     Community community = communityRepository.findById(id).get();
@@ -24,7 +25,7 @@ public class CommunityService {
     return new CommunityDto(community);
   }
 
-  @Transactional
+  @Transactional  //첨부파일 없는 게시글 생성
   public Long createCommunity(CommunityDto communityDto) {
     Member member = Member.createMember(); //가정의 유저 생성
     memberRepository.save(member);
@@ -34,6 +35,18 @@ public class CommunityService {
 
     return community.getId();
   }
+
+//  @Transactional  //첨부파일 있는 게시글 생성(보류)
+//  public void createCommunity(final CommunityDto communityDto) {
+//    Member member = Member.createMember();
+//    memberRepository.save(member);
+//
+//    Community community = Community.createCommunity(communityDto, member);
+//    communityRepository.save(community);
+//
+//    List<FileRequest> files = fileUtils.uploadFiles(community.getFiles());
+//    fileService.saveFiles(community, files);
+//  }
 
   @Transactional
   public void updateCommunity(Long id, CommunityDto communityDto) {

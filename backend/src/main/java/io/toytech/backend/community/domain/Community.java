@@ -54,7 +54,8 @@ public class Community {
   private List<Comment> comments = new ArrayList<>();
 
 
-  public static Community createCommunity(CommunityDto communityDto, Member member) {
+  public static Community createCommunity(CommunityDto communityDto,
+      Member member) { //엔티티로 변경 (저장을 위함)
     Community community = new Community();
     community.member = member;
     community.title = communityDto.getTitle();
@@ -66,7 +67,7 @@ public class Community {
     return community;
   }
 
-  public void updateCommunity(CommunityDto communityDto) {
+  public void updateCommunity(CommunityDto communityDto) { //업데이트
     title = communityDto.getTitle();
     content = communityDto.getContent();
     modifiedAt = LocalDateTime.now();

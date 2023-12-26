@@ -18,7 +18,7 @@ public class CommunityController {
 
   private final CommunityService communityService;
 
-  @PostMapping("/community/new") //커뮤니티 생성
+  @PostMapping("/community/new") //커뮤니티 생성 첨부 파일이 없는
   public Long createCommunity(@RequestBody CommunityDto communityDto) {
     Long id = communityService.createCommunity(communityDto);
     return id;

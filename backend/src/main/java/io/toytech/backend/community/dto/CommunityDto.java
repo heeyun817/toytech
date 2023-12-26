@@ -40,7 +40,13 @@ public class CommunityDto {
   private List<CommentDto> comments;
 
 
-  public CommunityDto(Community community) {
+  public CommunityDto(String title, String content, CommunityType communityType) {
+    this.title = title;
+    this.content = content;
+    this.communityType = communityType;
+  }
+
+  public CommunityDto(Community community) { //toDto
     this.id = community.getId();
     this.title = community.getTitle();
     this.content = community.getContent();
@@ -52,7 +58,7 @@ public class CommunityDto {
     this.communityType = community.getCommunityType();
 //    this.memberDto = new MemberDto(community.getMember()); //lazy 로딩인지 확인해야 됨  ===> 무한 루프에 빠짐
     this.name = community.getMember().getName();
-    this.comments = community.getComments().stream()
+    this.comments = community.getComments().stream() //이것도 무한 루프인 지 확인해봐야함
         .map(c -> new CommentDto(c)).collect(Collectors.toList());
   }
 }
