@@ -29,7 +29,7 @@ public class Recruitment {
   @Column(name = "title", nullable = false)
   private String title;
   // 본문
-  @Column(name = "content", nullable = false)
+  @Column(name = "content", nullable = false, columnDefinition = "TEXT")
   private String content;
 
   // 작성자 -> 나중에 Member로 바꾸기
