@@ -15,7 +15,7 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> 
 
   Page<Recruitment> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
-  List<Recruitment> findAllByOrderByViewDesc();
+  Page<Recruitment> findAllByOrderByViewDesc(Pageable pageable);
 
   Optional<Recruitment> findById(long id);
   @Modifying

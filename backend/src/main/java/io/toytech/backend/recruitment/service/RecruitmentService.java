@@ -12,7 +12,7 @@ public interface RecruitmentService {
   Map<Recruitment, List<Tag>> findAll(Pageable pageable);
 
   // 전체 글 조회 (조회순)
-  Map<Recruitment, List<Tag>> findAllByView();
+  Map<Recruitment, List<Tag>> findAllByView(Pageable pageable);
 
   // 게시글 id별 조회
   Map<Recruitment, List<Tag>> findById(Long Id);

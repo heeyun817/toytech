@@ -40,8 +40,9 @@ public class RecruitmentController {
 
   // 모든 글 조회 (조회순)
   @GetMapping("/recruitments/view")
-  public Map<Recruitment, List<Tag>> getAllRecruitmentsByView() {
-    return service.findAllByView();
+  public Map<Recruitment, List<Tag>> getAllRecruitmentsByView(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int pageSize) {
+    Pageable pageable = PageRequest.of(page, pageSize);
+    return service.findAllByView(pageable);
   }
 
   // 특정 글 조회

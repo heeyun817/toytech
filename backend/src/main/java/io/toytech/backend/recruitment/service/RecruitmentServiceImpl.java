@@ -56,8 +56,8 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 전체 글 조회 (조회순)
   @Override
-  public Map<Recruitment, List<Tag>> findAllByView() {
-    Iterable<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByViewDesc();
+  public Map<Recruitment, List<Tag>> findAllByView(Pageable pageable) {
+    Page<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByViewDesc(pageable);
 
     Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
 
