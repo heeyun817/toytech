@@ -9,10 +9,10 @@ import org.springframework.data.domain.Pageable;
 
 public interface RecruitmentService {
   // 전체 글 조회 (최신순)
-  Map<Recruitment, List<Tag>> findAll(Pageable pageable);
+  Map<Recruitment, List<Tag>> findAll(Pageable pageable, String order);
 
   // 전체 글 조회 (조회순)
-  Map<Recruitment, List<Tag>> findAllByView(Pageable pageable);
+//  Map<Recruitment, List<Tag>> findAllByView(Pageable pageable);
 
   // 게시글 id별 조회
   Map<Recruitment, List<Tag>> findById(Long Id);

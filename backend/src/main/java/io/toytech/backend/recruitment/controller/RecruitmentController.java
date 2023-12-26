@@ -31,18 +31,14 @@ public class RecruitmentController {
     this.service = service;
   }
 
-  // 모든 글 조회 (최신순)
+  // 모든 글 조회 (최신순 :recent, 조회순:views)
   @GetMapping("/recruitments")
-  public Map<Recruitment, List<Tag>> getAllRecruitments(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int pageSize) {
+  public Map<Recruitment, List<Tag>> getAllRecruitments(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int pageSize,
+      @RequestParam(defaultValue = "recent") String order) {
     Pageable pageable = PageRequest.of(page, pageSize);
-    return service.findAll(pageable);
-  }
-
-  // 모든 글 조회 (조회순)
-  @GetMapping("/recruitments/view")
-  public Map<Recruitment, List<Tag>> getAllRecruitmentsByView(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int pageSize) {
-    Pageable pageable = PageRequest.of(page, pageSize);
-    return service.findAllByView(pageable);
+    return service.findAll(pageable, order);
   }
 
   // 특정 글 조회
@@ -94,5 +90,14 @@ public class RecruitmentController {
   public Map<Recruitment, List<Tag>> getRecruitmentByTag(@PathVariable String tag) {
     return service.findByTag(tag);
   }
+
+
+
+  // 모든 글 조회 (조회순)
+//  @GetMapping("/recruitments/view")
+//  public Map<Recruitment, List<Tag>> getAllRecruitmentsByView(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int pageSize) {
+//    Pageable pageable = PageRequest.of(page, pageSize);
+//    return service.findAllByView(pageable);
+//  }
 
 }

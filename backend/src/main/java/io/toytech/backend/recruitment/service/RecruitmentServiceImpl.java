@@ -31,8 +31,16 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 전체 글 조회 (최신순)
   @Override
-  public Map<Recruitment, List<Tag>> findAll(Pageable pageable) {
-    Page<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc(pageable);
+  public Map<Recruitment, List<Tag>> findAll(Pageable pageable, String order) {
+    Page<Recruitment> allRecruitments;
+
+    if ("recent".equals(order)) { //최신순
+      allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc(pageable);
+    }else if("views".equals(order)) { //조회순
+      allRecruitments = recruitmentRepository.findAllByOrderByViewDesc(pageable);
+    }else{
+      throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+    }
 
     Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
 
@@ -54,30 +62,6 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     return recruitmentTagMap;
   }
 
-  // 전체 글 조회 (조회순)
-  @Override
-  public Map<Recruitment, List<Tag>> findAllByView(Pageable pageable) {
-    Page<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByViewDesc(pageable);
-
-    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
-
-    for (Recruitment recruitment : allRecruitments) {
-      long recruitmentId = recruitment.getId();
-      List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(recruitmentId);
-      List<Tag> tags = new ArrayList<>();
-      for (RecruitmentTag tagId : tagIds) {
-        Tag tag = tagId.getTag();
-        tags.add(tag);
-      }
-
-      // 댓글 개수
-//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
-//      recruitment.setComment(commentCnt);
-
-      recruitmentTagMap.put(recruitment, tags);
-    }
-    return recruitmentTagMap;
-  }
 
   // 게시글 id별 조회
   @Override
@@ -241,5 +225,33 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     }
     return recruitmentTagMap;
   }
+
+
+
+  // 전체 글 조회 (조회순)
+//  @Override
+//  public Map<Recruitment, List<Tag>> findAllByView(Pageable pageable) {
+//    Page<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByViewDesc(pageable);
+//
+//    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
+//
+//    for (Recruitment recruitment : allRecruitments) {
+//      long recruitmentId = recruitment.getId();
+//      List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(recruitmentId);
+//      List<Tag> tags = new ArrayList<>();
+//      for (RecruitmentTag tagId : tagIds) {
+//        Tag tag = tagId.getTag();
+//        tags.add(tag);
+//      }
+
+  // 댓글 개수
+//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
+//      recruitment.setComment(commentCnt);
+//
+//      recruitmentTagMap.put(recruitment, tags);
+//    }
+//    return recruitmentTagMap;
+//  }
+
 
 }
