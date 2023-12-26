@@ -29,7 +29,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     this.tagRepository = tagRepository;
   }
 
-  // 전체 글 조회 (최신순)
+  // 전체 글 조회
   @Override
   public Map<Recruitment, List<Tag>> findAll(Pageable pageable, String order) {
     Page<Recruitment> allRecruitments;
@@ -179,10 +179,18 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 검색 기능
   @Override
-  public Map<Recruitment, List<Tag>> search(String keyword) {
-    Iterable<Recruitment> recruitments = recruitmentRepository.findByTitleContaining(keyword);
-
+  public Map<Recruitment, List<Tag>> search(Pageable pageable, String keyword, String order) {
+    Page<Recruitment> recruitments;
     Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
+
+    if ("recent".equals(order)) { // 최신순 정렬
+      recruitments = recruitmentRepository.findByTitleContainingOrderByCreatedAtDesc(keyword,pageable);
+    } else if ("views".equals(order)) { // 조회순 정렬
+      // 조회순 정렬
+      recruitments = recruitmentRepository.findByTitleContainingOrderByViewDesc(keyword,pageable);
+    } else { // 잘못된 order 입력 시
+      throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+    }
 
     for (Recruitment recruitment : recruitments) {
       long recruitmentId = recruitment.getId();
