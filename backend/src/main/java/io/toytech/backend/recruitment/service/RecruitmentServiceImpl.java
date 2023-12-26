@@ -10,6 +10,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,12 +31,12 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 전체 글 조회 (최신순)
   @Override
-  public Map<Recruitment, List<Tag>> findAll() {
-    Iterable<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc();
+  public Map<Recruitment, List<Tag>> findAll(Pageable pageable) {
+    Page<Recruitment> allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc(pageable);
 
     Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
 
-    for (Recruitment recruitment : allRecruitments) {
+    for (Recruitment recruitment : allRecruitments.getContent()) {
       long recruitmentId = recruitment.getId();
       List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(recruitmentId);
       List<Tag> tags = new ArrayList<>();

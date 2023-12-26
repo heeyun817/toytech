@@ -5,10 +5,11 @@ import io.toytech.backend.recruitment.domain.Tag;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.springframework.data.domain.Pageable;
 
 public interface RecruitmentService {
   // 전체 글 조회 (최신순)
-  Map<Recruitment, List<Tag>> findAll();
+  Map<Recruitment, List<Tag>> findAll(Pageable pageable);
 
   // 전체 글 조회 (조회순)
   Map<Recruitment, List<Tag>> findAllByView();
