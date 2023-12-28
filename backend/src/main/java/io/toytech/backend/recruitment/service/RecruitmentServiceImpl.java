@@ -38,7 +38,9 @@ public class RecruitmentServiceImpl implements RecruitmentService{
       allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc(pageable);
     }else if("views".equals(order)) { //조회순
       allRecruitments = recruitmentRepository.findAllByOrderByViewDesc(pageable);
-    }else{
+    }else if("comments".equals(order)){ // 댓글순
+      allRecruitments = recruitmentRepository.findAllByOrderByCommentDesc(pageable);
+    } else{
       throw new IllegalArgumentException("잘못된 order 입력 : " + order);
     }
 

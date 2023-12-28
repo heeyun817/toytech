@@ -16,7 +16,7 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> 
   Page<Recruitment> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
   Page<Recruitment> findAllByOrderByViewDesc(Pageable pageable);
-
+  Page<Recruitment> findAllByOrderByCommentDesc(Pageable pageable);
   Optional<Recruitment> findById(long id);
   @Modifying
   @Query("update Recruitment r set r.view = r.view + 1 where r.id = :id")

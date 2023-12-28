@@ -31,7 +31,7 @@ public class RecruitmentController {
     this.service = service;
   }
 
-  // 모든 글 조회 (최신순 :recent, 조회순:views)
+  // 모든 글 조회 (최신순 :recent, 조회순:views, 댓글순:comments)
   @GetMapping("/recruitments")
   public Map<Recruitment, List<Tag>> getAllRecruitments(
       @RequestParam(defaultValue = "0") int page,
