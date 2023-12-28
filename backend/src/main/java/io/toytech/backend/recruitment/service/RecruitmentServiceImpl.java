@@ -238,18 +238,30 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 태그로 글 검색
   @Override
-  public Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable, String order) {
+  public Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable, String order, Boolean active) {
     Tag tag = tagRepository.findByName(tagName).orElseThrow(() -> new EntityNotFoundException("해당 태그가 없습니다: " + tagName));
     Page<RecruitmentTag> recruitmentTags;
 
-    if ("recent".equals(order)) {
-      recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentCreatedAtDesc(tag, pageable);
-    } else if ("views".equals(order)) {
-      recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentViewDesc(tag, pageable);
-    }else if("comments".equals(order)){ // 댓글순
-      recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentCommentDesc(tag, pageable);
-    } else {
-      throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+    if(active != null){
+      if ("recent".equals(order)) {
+        recruitmentTags = recruitmentTagRepository.findByTagAndRecruitmentActiveOrderByRecruitmentCreatedAtDesc(tag, pageable, active);
+      } else if ("views".equals(order)) {
+        recruitmentTags = recruitmentTagRepository.findByTagAndRecruitmentActiveOrderByRecruitmentViewDesc(tag, pageable, active);
+      }else if("comments".equals(order)){ // 댓글순
+        recruitmentTags = recruitmentTagRepository.findByTagAndRecruitmentActiveOrderByRecruitmentCommentDesc(tag, pageable, active);
+      } else {
+        throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+      }
+    } else{
+      if ("recent".equals(order)) {
+        recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentCreatedAtDesc(tag, pageable);
+      } else if ("views".equals(order)) {
+        recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentViewDesc(tag, pageable);
+      }else if("comments".equals(order)){ // 댓글순
+        recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentCommentDesc(tag, pageable);
+      } else {
+        throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+      }
     }
 
     Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();

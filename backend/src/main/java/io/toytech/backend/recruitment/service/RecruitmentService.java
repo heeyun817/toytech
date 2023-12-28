@@ -33,5 +33,5 @@ public interface RecruitmentService {
   Map<Recruitment, List<Tag>> search(Pageable pageable, String keyword, String order, Boolean active);
 
   // 태그 검색
-  Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable, String order);
+  Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable, String order, Boolean active);
 }

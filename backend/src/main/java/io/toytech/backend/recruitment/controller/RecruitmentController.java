@@ -89,9 +89,10 @@ public class RecruitmentController {
   public Map<Recruitment, List<Tag>> getRecruitmentByTag( @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int pageSize,
       @RequestParam(defaultValue = "recent") String order,
-      @RequestParam String tag) {
+      @RequestParam String tag,
+      @RequestParam(required = false) Boolean active) {
     Pageable pageable = PageRequest.of(page, pageSize);
-    return service.findByTag(tag,pageable, order);
+    return service.findByTag(tag,pageable, order, active);
   }
 
 
