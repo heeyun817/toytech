@@ -83,15 +83,9 @@ public class RecruitmentController {
     }
   }
 
-  // 검색
-//  @GetMapping("/recruitments/search")
-//  public Map<Recruitment, List<Tag>> searchRecruitmentByTitle(@RequestParam String keyword) {
-//    return service.search(keyword);
-//  }
-
   // 태그 검색
-  @GetMapping("/recruitments/search/{tag}")
-  public Map<Recruitment, List<Tag>> getRecruitmentByTag(@PathVariable String tag) {
+  @GetMapping("/recruitments/tagSearch")
+  public Map<Recruitment, List<Tag>> getRecruitmentByTag(@RequestParam String tag) {
     return service.findByTag(tag);
   }
 
@@ -102,6 +96,12 @@ public class RecruitmentController {
 //  public Map<Recruitment, List<Tag>> getAllRecruitmentsByView(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int pageSize) {
 //    Pageable pageable = PageRequest.of(page, pageSize);
 //    return service.findAllByView(pageable);
+//  }
+
+  // 검색
+//  @GetMapping("/recruitments/search")
+//  public Map<Recruitment, List<Tag>> searchRecruitmentByTitle(@RequestParam String keyword) {
+//    return service.search(keyword);
 //  }
 
 }
