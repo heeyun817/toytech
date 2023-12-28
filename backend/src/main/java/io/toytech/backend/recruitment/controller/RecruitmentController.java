@@ -37,10 +37,11 @@ public class RecruitmentController {
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int pageSize,
       @RequestParam(defaultValue = "recent") String order,
-      @RequestParam(required = false) String keyword) {
+      @RequestParam(required = false) String keyword,
+      @RequestParam(required = false) Boolean active) {
     Pageable pageable = PageRequest.of(page, pageSize);
     if (keyword == null) {
-      return service.findAll(pageable, order);
+      return service.findAll(pageable, order, active);
     }
     else return service.search(pageable,keyword, order);
   }

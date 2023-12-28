@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface RecruitmentService {
   // 전체 글 조회
-  Map<Recruitment, List<Tag>> findAll(Pageable pageable, String order);
+  Map<Recruitment, List<Tag>> findAll(Pageable pageable, String order, Boolean active);
 
   // 전체 글 조회 (조회순)
 //  Map<Recruitment, List<Tag>> findAllByView(Pageable pageable);

@@ -31,17 +31,28 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 전체 글 조회
   @Override
-  public Map<Recruitment, List<Tag>> findAll(Pageable pageable, String order) {
+  public Map<Recruitment, List<Tag>> findAll(Pageable pageable, String order, Boolean active) {
     Page<Recruitment> allRecruitments;
-
-    if ("recent".equals(order)) { //최신순
-      allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc(pageable);
-    }else if("views".equals(order)) { //조회순
-      allRecruitments = recruitmentRepository.findAllByOrderByViewDesc(pageable);
-    }else if("comments".equals(order)){ // 댓글순
-      allRecruitments = recruitmentRepository.findAllByOrderByCommentDesc(pageable);
+    if(active != null){
+      if ("recent".equals(order)) { //최신순
+        allRecruitments = recruitmentRepository.findAllByActiveOrderByCreatedAtDesc(pageable,active);
+      }else if("views".equals(order)) { //조회순
+        allRecruitments = recruitmentRepository.findAllByActiveOrderByViewDesc(pageable,active);
+      }else if("comments".equals(order)){ // 댓글순
+        allRecruitments = recruitmentRepository.findAllByActiveOrderByCommentDesc(pageable,active);
+      } else{
+        throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+      }
     } else{
-      throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+      if ("recent".equals(order)) { //최신순
+      allRecruitments = recruitmentRepository.findAllByOrderByCreatedAtDesc(pageable);
+      }else if("views".equals(order)) { //조회순
+        allRecruitments = recruitmentRepository.findAllByOrderByViewDesc(pageable);
+      }else if("comments".equals(order)){ // 댓글순
+        allRecruitments = recruitmentRepository.findAllByOrderByCommentDesc(pageable);
+      } else{
+        throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+      }
     }
 
     Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
