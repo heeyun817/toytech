@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
   private final MemberRepository memberRepository;
+  private final MemberRatingsService memberRatingsService;
 
   @Autowired
-  public MemberServiceImpl(MemberRepository memberRepository) {
+  public MemberServiceImpl(MemberRepository memberRepository,
+      MemberRatingsService memberRatingsService) {
     this.memberRepository = memberRepository;
+    this.memberRatingsService = memberRatingsService;
   }
 
   @Override
@@ -29,7 +32,9 @@ public class MemberServiceImpl implements MemberService {
 
   @Override
   public Member create(Member member) {
-    return memberRepository.save(member);
+    Member savedMember = memberRepository.save(member);
+    memberRatingsService.create(savedMember);
+    return savedMember;
   }
 
   @Override
