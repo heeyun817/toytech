@@ -15,4 +15,6 @@ public interface RecruitmentTagRepository extends JpaRepository<RecruitmentTag,L
   Page<RecruitmentTag> findByTagOrderByRecruitmentCreatedAtDesc(Tag tag, Pageable pageable);
 
   Page<RecruitmentTag> findByTagOrderByRecruitmentViewDesc(Tag tag, Pageable pageable);
+
+  Page<RecruitmentTag> findByTagOrderByRecruitmentCommentDesc(Tag tag, Pageable pageable);
 }

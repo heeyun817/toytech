@@ -223,6 +223,8 @@ public class RecruitmentServiceImpl implements RecruitmentService{
       recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentCreatedAtDesc(tag, pageable);
     } else if ("views".equals(order)) {
       recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentViewDesc(tag, pageable);
+    }else if("comments".equals(order)){ // 댓글순
+      recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentCommentDesc(tag, pageable);
     } else {
       throw new IllegalArgumentException("잘못된 order 입력 : " + order);
     }
