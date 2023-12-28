@@ -186,7 +186,6 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     if ("recent".equals(order)) { // 최신순 정렬
       recruitments = recruitmentRepository.findByTitleContainingOrderByCreatedAtDesc(keyword,pageable);
     } else if ("views".equals(order)) { // 조회순 정렬
-      // 조회순 정렬
       recruitments = recruitmentRepository.findByTitleContainingOrderByViewDesc(keyword,pageable);
     } else { // 잘못된 order 입력 시
       throw new IllegalArgumentException("잘못된 order 입력 : " + order);
@@ -212,10 +211,20 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 태그로 글 검색
   @Override
-  public Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable) {
+  public Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable, String order) {
     Tag tag = tagRepository.findByName(tagName).orElseThrow(() -> new EntityNotFoundException("해당 태그가 없습니다: " + tagName));
-    Page<RecruitmentTag> recruitmentTags = recruitmentTagRepository.findByTag(tag, pageable);
-    Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
+    Page<RecruitmentTag> recruitmentTags;
+
+    if ("recent".equals(order)) {
+      recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentCreatedAtDesc(tag, pageable);
+    } else if ("views".equals(order)) {
+      recruitmentTags = recruitmentTagRepository.findByTagOrderByRecruitmentViewDesc(tag, pageable);
+    } else {
+      throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+    }
+
+    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
+
     for (RecruitmentTag recruitmentTag : recruitmentTags) {
       Recruitment recruitment = recruitmentTag.getRecruitment();
       List<Tag> tags = new ArrayList<>();

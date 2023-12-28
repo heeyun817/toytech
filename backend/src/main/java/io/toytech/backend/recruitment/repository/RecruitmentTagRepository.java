@@ -12,5 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface RecruitmentTagRepository extends JpaRepository<RecruitmentTag,Long> {
   List<RecruitmentTag> findByRecruitmentId(long recruitmentId);
 
-  Page<RecruitmentTag> findByTag(Tag tag, Pageable pageable);
+  Page<RecruitmentTag> findByTagOrderByRecruitmentCreatedAtDesc(Tag tag, Pageable pageable);
+
+  Page<RecruitmentTag> findByTagOrderByRecruitmentViewDesc(Tag tag, Pageable pageable);
 }
