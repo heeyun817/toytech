@@ -24,4 +24,6 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> 
 
   Page<Recruitment> findByTitleContainingOrderByCreatedAtDesc(String keyword, Pageable pageable);
   Page<Recruitment> findByTitleContainingOrderByViewDesc(String keyword, Pageable pageable);
+
+  Page<Recruitment> findByTitleContainingOrderByCommentDesc(String keyword, Pageable pageable);
 }
