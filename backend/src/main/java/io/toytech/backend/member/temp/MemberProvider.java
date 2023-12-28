@@ -3,7 +3,7 @@ package io.toytech.backend.member.temp;
 import io.toytech.backend.member.constant.Status;
 import io.toytech.backend.member.domain.Address;
 import io.toytech.backend.member.domain.Member;
-import io.toytech.backend.member.repository.MemberRepository;
+import io.toytech.backend.member.service.MemberService;
 import java.time.LocalDateTime;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ public class MemberProvider {
   private static final int COUNT = 3;
 
   @Bean
-  public ApplicationRunner test(MemberRepository memberRepository) {
+  public ApplicationRunner test(MemberService memberService) {
     return args -> {
 
       for (int i = 0; i < COUNT; i++) {
@@ -26,7 +26,7 @@ public class MemberProvider {
             .zipCode("0000" + i)
             .build();
 
-        memberRepository.save(Member.builder()
+        memberService.create(Member.builder()
             .email("test" + i + "@test")
             .password("test" + i)
             .name("상우" + i)
