@@ -43,7 +43,7 @@ public class RecruitmentController {
     if (keyword == null) {
       return service.findAll(pageable, order, active);
     }
-    else return service.search(pageable,keyword, order);
+    else return service.search(pageable,keyword, order, active);
   }
 
   // 특정 글 조회

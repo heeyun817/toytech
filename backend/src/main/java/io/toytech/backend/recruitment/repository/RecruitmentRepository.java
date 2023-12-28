@@ -31,4 +31,10 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> 
   Page<Recruitment> findByTitleContainingOrderByViewDesc(String keyword, Pageable pageable);
 
   Page<Recruitment> findByTitleContainingOrderByCommentDesc(String keyword, Pageable pageable);
+
+  Page<Recruitment> findByTitleContainingAndActiveOrderByCreatedAtDesc(String keyword, Pageable pageable, Boolean active);
+
+  Page<Recruitment> findByTitleContainingAndActiveOrderByViewDesc(String keyword, Pageable pageable, Boolean active);
+
+  Page<Recruitment> findByTitleContainingAndActiveOrderByCommentDesc(String keyword, Pageable pageable, Boolean active);
 }

@@ -192,18 +192,30 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 검색 기능
   @Override
-  public Map<Recruitment, List<Tag>> search(Pageable pageable, String keyword, String order) {
+  public Map<Recruitment, List<Tag>> search(Pageable pageable, String keyword, String order, Boolean active) {
     Page<Recruitment> recruitments;
     Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
 
-    if ("recent".equals(order)) { // 최신순 정렬
-      recruitments = recruitmentRepository.findByTitleContainingOrderByCreatedAtDesc(keyword,pageable);
-    } else if ("views".equals(order)) { // 조회순 정렬
-      recruitments = recruitmentRepository.findByTitleContainingOrderByViewDesc(keyword,pageable);
-    }else if("comments".equals(order)){ // 댓글순
-      recruitments = recruitmentRepository.findByTitleContainingOrderByCommentDesc(keyword,pageable);
-    } else { // 잘못된 order 입력 시
-      throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+    if(active!=null){
+      if ("recent".equals(order)) { // 최신순 정렬
+        recruitments = recruitmentRepository.findByTitleContainingAndActiveOrderByCreatedAtDesc(keyword,pageable,active);
+      } else if ("views".equals(order)) { // 조회순 정렬
+        recruitments = recruitmentRepository.findByTitleContainingAndActiveOrderByViewDesc(keyword,pageable,active);
+      }else if("comments".equals(order)){ // 댓글순
+        recruitments = recruitmentRepository.findByTitleContainingAndActiveOrderByCommentDesc(keyword,pageable,active);
+      } else { // 잘못된 order 입력 시
+        throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+      }
+    } else{
+      if ("recent".equals(order)) { // 최신순 정렬
+        recruitments = recruitmentRepository.findByTitleContainingOrderByCreatedAtDesc(keyword,pageable);
+      } else if ("views".equals(order)) { // 조회순 정렬
+        recruitments = recruitmentRepository.findByTitleContainingOrderByViewDesc(keyword,pageable);
+      }else if("comments".equals(order)){ // 댓글순
+        recruitments = recruitmentRepository.findByTitleContainingOrderByCommentDesc(keyword,pageable);
+      } else { // 잘못된 order 입력 시
+        throw new IllegalArgumentException("잘못된 order 입력 : " + order);
+      }
     }
 
     for (Recruitment recruitment : recruitments) {
