@@ -212,9 +212,9 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 태그로 글 검색
   @Override
-  public Map<Recruitment, List<Tag>> findByTag(String tagName) {
+  public Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable) {
     Tag tag = tagRepository.findByName(tagName).orElseThrow(() -> new EntityNotFoundException("해당 태그가 없습니다: " + tagName));
-    List<RecruitmentTag> recruitmentTags = recruitmentTagRepository.findByTag(tag);
+    Page<RecruitmentTag> recruitmentTags = recruitmentTagRepository.findByTag(tag, pageable);
     Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
     for (RecruitmentTag recruitmentTag : recruitmentTags) {
       Recruitment recruitment = recruitmentTag.getRecruitment();

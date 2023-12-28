@@ -85,8 +85,11 @@ public class RecruitmentController {
 
   // 태그 검색
   @GetMapping("/recruitments/tagSearch")
-  public Map<Recruitment, List<Tag>> getRecruitmentByTag(@RequestParam String tag) {
-    return service.findByTag(tag);
+  public Map<Recruitment, List<Tag>> getRecruitmentByTag( @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int pageSize,
+      @RequestParam String tag) {
+    Pageable pageable = PageRequest.of(page, pageSize);
+    return service.findByTag(tag,pageable);
   }
 
 
