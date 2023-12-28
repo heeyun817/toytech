@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberRatingsServiceImpl implements MemberRatingsService {
 
+  private static final Long DEFAULT_LIKES = 1L;
+
   private final MemberRatingsRepository memberRatingsRepository;
 
   @Autowired
@@ -27,5 +29,25 @@ public class MemberRatingsServiceImpl implements MemberRatingsService {
         .totalLikesScore(0.0)
         .build();
     return memberRatingsRepository.save(memberRatings);
+  }
+
+  @Override
+  public void likes(Long id) {
+    memberRatingsRepository
+        .findById(id)
+        .ifPresent(memberRatings -> {
+          memberRatings.likes(DEFAULT_LIKES);
+          memberRatingsRepository.save(memberRatings);
+        });
+  }
+
+  @Override
+  public void dislikes(Long id) {
+    memberRatingsRepository
+        .findById(id)
+        .ifPresent(memberRatings -> {
+          memberRatings.dislikes(DEFAULT_LIKES);
+          memberRatingsRepository.save(memberRatings);
+        });
   }
 }

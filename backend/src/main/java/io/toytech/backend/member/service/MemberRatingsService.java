@@ -7,4 +7,7 @@ public interface MemberRatingsService {
 
   MemberRatings create(Member member);
 
+  void likes(Long id);
+
+  void dislikes(Long id);
 }

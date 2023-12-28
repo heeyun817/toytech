@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberRatings {
 
+  // TODO id, member를 따로 갖지 말고 통합하기
+
   @Id
   @Column(name = "id", updatable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,5 +49,13 @@ public class MemberRatings {
     this.dislikesGivenCount = dislikesGivenCount;
     this.totalEvalScore = totalEvalScore;
     this.totalLikesScore = totalLikesScore;
+  }
+
+  public void likes(Long num) {
+    this.likesGivenCount = this.likesGivenCount + num;
+  }
+
+  public void dislikes(Long num) {
+    this.dislikesGivenCount = this.dislikesGivenCount + num;
   }
 }
