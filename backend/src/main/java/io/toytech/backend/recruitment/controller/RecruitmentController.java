@@ -10,6 +10,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,12 +36,10 @@ public class RecruitmentController {
   // 모든 글 조회 (최신순 :recent, 조회순:views, 댓글순:comments)
   @GetMapping("/recruitments")
   public Map<Recruitment, List<Tag>> getAllRecruitments(
-      @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "10") int pageSize,
+      @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       @RequestParam(defaultValue = "recent") String order,
       @RequestParam(required = false) String keyword,
       @RequestParam(required = false) Boolean active) {
-    Pageable pageable = PageRequest.of(page, pageSize);
     if (keyword == null) {
       return service.findAll(pageable, order, active);
     }
@@ -86,12 +86,11 @@ public class RecruitmentController {
 
   // 태그 검색
   @GetMapping("/recruitments/tagSearch")
-  public Map<Recruitment, List<Tag>> getRecruitmentByTag( @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "10") int pageSize,
+  public Map<Recruitment, List<Tag>> getRecruitmentByTag(
+      @PageableDefault(page = 0, size = 10) Pageable pageable,
       @RequestParam(defaultValue = "recent") String order,
       @RequestParam String tag,
       @RequestParam(required = false) Boolean active) {
-    Pageable pageable = PageRequest.of(page, pageSize);
     return service.findByTag(tag,pageable, order, active);
   }
 
