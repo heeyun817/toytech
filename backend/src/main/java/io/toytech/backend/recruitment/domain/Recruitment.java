@@ -22,7 +22,7 @@ import org.hibernate.annotations.*;
 @ToString
 public class Recruitment {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", updatable = false)
   private long id;
   // 제목
