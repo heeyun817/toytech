@@ -7,6 +7,7 @@ import io.toytech.backend.recruitment.service.RecruitmentService;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,13 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
+@RequiredArgsConstructor
 public class RecruitmentController {
 
   private final RecruitmentService service;
-  @Autowired
-  public RecruitmentController(RecruitmentService service) {
-    this.service = service;
-  }
 
   // 모든 글 조회 (최신순 :recent, 조회순:views, 댓글순:comments)
   @GetMapping("/recruitments")

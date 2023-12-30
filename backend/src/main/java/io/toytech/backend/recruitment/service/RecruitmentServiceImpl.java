@@ -9,25 +9,19 @@ import io.toytech.backend.recruitment.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RecruitmentServiceImpl implements RecruitmentService{
 
   private final RecruitmentRepository recruitmentRepository;
   private final RecruitmentTagRepository recruitmentTagRepository;
   private final TagRepository tagRepository;
-
-
-  @Autowired
-  public RecruitmentServiceImpl(RecruitmentRepository recruitmentRepository, RecruitmentTagRepository recruitmentTagRepository, TagRepository tagRepository) {
-    this.recruitmentRepository = recruitmentRepository;
-    this.recruitmentTagRepository = recruitmentTagRepository;
-    this.tagRepository = tagRepository;
-  }
 
   // 전체 글 조회
   @Override
@@ -66,10 +60,6 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         tags.add(tag);
       }
 
-      // 댓글 개수
-//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
-//      recruitment.setComment(commentCnt);
-
       recruitmentTagMap.put(recruitment, tags);
     }
     return recruitmentTagMap;
@@ -89,10 +79,6 @@ public class RecruitmentServiceImpl implements RecruitmentService{
       Tag tag = tagId.getTag();
       tags.add(tag);
     }
-
-      // 댓글 개수
-//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
-//      recruitment.setComment(commentCnt);
 
     recruitmentTagMap.put(recruitment, tags);
     return recruitmentTagMap;
@@ -227,10 +213,6 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         tags.add(tag);
       }
 
-      // 댓글 개수
-//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
-//      recruitment.setComment(commentCnt);
-
       recruitmentTagMap.put(recruitment, tags);
     }
     return recruitmentTagMap;
@@ -274,10 +256,6 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         Tag tag1 = tagId.getTag();
         tags.add(tag1);
       }
-
-      // 댓글 개수
-//      int commentCnt = commentRepository.countByRecruitmentId(recruitmentId);
-//      recruitment.setComment(commentCnt);
 
       recruitmentTagMap.put(recruitment, tags);
     }
