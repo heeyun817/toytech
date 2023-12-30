@@ -2,6 +2,7 @@ package io.toytech.backend.domain;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import io.toytech.backend.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
