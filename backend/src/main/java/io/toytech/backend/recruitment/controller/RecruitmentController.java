@@ -35,13 +35,12 @@ public class RecruitmentController {
   @GetMapping("/recruitments")
   public Map<Recruitment, List<Tag>> getAllRecruitments(
       @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
-      @RequestParam(defaultValue = "recent") String order,
       @RequestParam(required = false) String keyword,
       @RequestParam(required = false) Boolean active) {
     if (keyword == null) {
-      return service.findAll(pageable, order, active);
+      return service.findAll(pageable, active);
     }
-    else return service.search(pageable,keyword, order, active);
+    else return service.search(pageable,keyword,active);
   }
 
   // 특정 글 조회
@@ -85,11 +84,10 @@ public class RecruitmentController {
   // 태그 검색
   @GetMapping("/recruitments/tagSearch")
   public Map<Recruitment, List<Tag>> getRecruitmentByTag(
-      @PageableDefault(page = 0, size = 10) Pageable pageable,
-      @RequestParam(defaultValue = "recent") String order,
+      @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       @RequestParam String tag,
       @RequestParam(required = false) Boolean active) {
-    return service.findByTag(tag,pageable, order, active);
+    return service.findByTag(tag,pageable, active);
   }
 
 

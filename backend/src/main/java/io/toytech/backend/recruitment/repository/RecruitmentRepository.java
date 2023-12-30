@@ -13,28 +13,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> {
 
-  Page<Recruitment> findAllByOrderByCreatedAtDesc(Pageable pageable);
-
-  Page<Recruitment> findAllByOrderByViewDesc(Pageable pageable);
-  Page<Recruitment> findAllByOrderByCommentDesc(Pageable pageable);
-
-  Page<Recruitment> findAllByActiveOrderByCreatedAtDesc(Pageable pageable, Boolean active);
-  Page<Recruitment> findAllByActiveOrderByViewDesc(Pageable pageable, Boolean active);
-  Page<Recruitment> findAllByActiveOrderByCommentDesc(Pageable pageable, Boolean active);
-
   Optional<Recruitment> findById(long id);
   @Modifying
   @Query("update Recruitment r set r.view = r.view + 1 where r.id = :id")
   int updateView(Long id);
 
-  Page<Recruitment> findByTitleContainingOrderByCreatedAtDesc(String keyword, Pageable pageable);
-  Page<Recruitment> findByTitleContainingOrderByViewDesc(String keyword, Pageable pageable);
+  Page<Recruitment> findAllByActive(Pageable pageable, Boolean active);
 
-  Page<Recruitment> findByTitleContainingOrderByCommentDesc(String keyword, Pageable pageable);
+  Page<Recruitment> findByTitleContainingAndActive(String keyword, Pageable pageable, Boolean active);
 
-  Page<Recruitment> findByTitleContainingAndActiveOrderByCreatedAtDesc(String keyword, Pageable pageable, Boolean active);
+  Page<Recruitment> findByTitleContaining(String keyword, Pageable pageable);
 
-  Page<Recruitment> findByTitleContainingAndActiveOrderByViewDesc(String keyword, Pageable pageable, Boolean active);
+  Page<Recruitment> findByRecruitmentTagsTagIdAndActive(long id, Pageable pageable, Boolean active);
 
-  Page<Recruitment> findByTitleContainingAndActiveOrderByCommentDesc(String keyword, Pageable pageable, Boolean active);
+  Page<Recruitment> findByRecruitmentTagsTagId(long id, Pageable pageable);
 }

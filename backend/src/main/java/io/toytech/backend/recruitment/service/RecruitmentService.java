@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface RecruitmentService {
   // 전체 글 조회
-  Map<Recruitment, List<Tag>> findAll(Pageable pageable, String order, Boolean active);
+  Map<Recruitment, List<Tag>> findAll(Pageable pageable, Boolean active);
 
   // 전체 글 조회 (조회순)
 //  Map<Recruitment, List<Tag>> findAllByView(Pageable pageable);
@@ -30,8 +30,8 @@ public interface RecruitmentService {
   int updateView(Long id);
 
   // 검색
-  Map<Recruitment, List<Tag>> search(Pageable pageable, String keyword, String order, Boolean active);
+  Map<Recruitment, List<Tag>> search(Pageable pageable, String keyword, Boolean active);
 
   // 태그 검색
-  Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable, String order, Boolean active);
+  Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable, Boolean active);
 }
