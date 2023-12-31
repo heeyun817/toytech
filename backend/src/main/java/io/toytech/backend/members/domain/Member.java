@@ -1,4 +1,4 @@
-package io.toytech.backend.member.domain;
+package io.toytech.backend.members.domain;
 
 import io.toytech.backend.comment.domain.Comment;
 import io.toytech.backend.community.domain.Community;

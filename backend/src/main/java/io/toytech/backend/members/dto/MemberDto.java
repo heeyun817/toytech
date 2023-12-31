@@ -1,4 +1,4 @@
-package io.toytech.backend.member.dto;
+package io.toytech.backend.members.dto;
 
 import io.toytech.backend.comment.dto.CommentDto;
 import io.toytech.backend.community.dto.CommunityDto;

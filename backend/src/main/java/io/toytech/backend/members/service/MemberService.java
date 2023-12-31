@@ -1,4 +1,4 @@
-package io.toytech.backend.member.service;
+package io.toytech.backend.members.service;
 
 import io.toytech.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

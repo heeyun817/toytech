@@ -1,4 +1,4 @@
-package io.toytech.backend.member.repository;
+package io.toytech.backend.members.repository;
 
 import io.toytech.backend.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
