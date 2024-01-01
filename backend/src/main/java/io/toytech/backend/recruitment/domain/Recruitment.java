@@ -17,7 +17,6 @@ import org.hibernate.annotations.*;
 @Entity
 @Table(name = "recruitment")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Recruitment {
@@ -65,6 +64,12 @@ public class Recruitment {
 //  private List<Comment> comments;
   @Column(name = "comment",columnDefinition = "integer default 0", nullable = false)
   private int comment;
+
+  public void update(String title, String content, boolean active) {
+    this.title = title;
+    this.content = content;
+    this.active = active;
+  }
 
 }
 
