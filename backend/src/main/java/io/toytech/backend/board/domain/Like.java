@@ -1,6 +1,5 @@
-package io.toytech.backend.comment.domain;
+package io.toytech.backend.board.domain;
 
-import io.toytech.backend.board.domain.Board;
 import io.toytech.backend.members.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,32 +8,34 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "likes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class Comment {
+public class Like {
 
   @Id
   @GeneratedValue
-  @Column(name = "comment_id")
+  @Column(name = "likes_id")
   private Long id;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "board_id")
   private Board board;
 
-  private String text; //댓글 내용
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id")
+  private Member member;
 
-  public Comment(Member member, Board board, String text) {
-    this.member = member;
+  @Builder
+  public Like(Board board, Member member) {
     this.board = board;
-    this.text = text;
+    this.member = member;
   }
+
+
 }

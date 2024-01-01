@@ -1,7 +1,7 @@
 package io.toytech.backend.members.domain;
 
+import io.toytech.backend.board.domain.Board;
 import io.toytech.backend.comment.domain.Comment;
-import io.toytech.backend.community.domain.Community;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
+  private static long num = 1;
   @Id
   @GeneratedValue
   @Column(name = "member_id")
   private Long id;
-
   private String name;
 
   @OneToMany(mappedBy = "member")
-  private List<Community> communities = new ArrayList<>();
+  private List<Board> boards = new ArrayList<>();
 
   @OneToMany(mappedBy = "member")
   private List<Comment> comments = new ArrayList<>();
@@ -34,7 +34,8 @@ public class Member {
 
   public static Member createMember() {
     Member member = new Member();
-    member.name = "userA";
+    member.name = "user" + num;
+    num += 1;
     return member;
   }
 
