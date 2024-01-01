@@ -2,7 +2,7 @@ package io.toytech.backend.comment.dto;
 
 import io.toytech.backend.comment.domain.Comment;
 import io.toytech.backend.community.dto.CommunityDto;
-import io.toytech.backend.member.dto.MemberDto;
+import io.toytech.backend.members.dto.MemberDto;
 import lombok.Getter;
 import lombok.Setter;
 

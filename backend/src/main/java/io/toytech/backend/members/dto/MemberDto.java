@@ -2,7 +2,7 @@ package io.toytech.backend.members.dto;
 
 import io.toytech.backend.comment.dto.CommentDto;
 import io.toytech.backend.community.dto.CommunityDto;
-import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.members.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
