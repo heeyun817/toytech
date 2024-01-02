@@ -5,10 +5,13 @@ import io.toytech.backend.board.domain.Board;
 import io.toytech.backend.board.domain.BoardFile;
 import io.toytech.backend.board.dto.BoardDto;
 import io.toytech.backend.board.repository.BoardRepository;
-import io.toytech.backend.members.domain.Member;
-import io.toytech.backend.members.repository.MemberRepository;
+import io.toytech.backend.member.constant.Status;
+import io.toytech.backend.member.domain.Address;
+import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.member.repository.MemberRepository;
 import io.toytech.backend.util.FileStore;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +47,20 @@ public class BoardService {
 
   @Transactional
   public Long createBoard(BoardDto boardDto) throws IOException {   //게시글 생성
-    Member member = Member.createMember(); //가정의 유저 생성
+    Address address = Address.builder()
+        .state("경기도")
+        .city("평택시")
+        .street("111")
+        .zipCode("123-1")
+        .build();
+    Member member = Member.builder()
+        .email("123@naver.com")
+        .password("1234")
+        .name("Kim")
+        .dateBirth(LocalDateTime.now())
+        .address(address)
+        .status(Status.MEMBER)
+        .build(); //가정의 유저 생성
     memberRepository.save(member);
 
     List<BoardFile> boardFiles = fileStore.storeFiles(boardDto.getMultipartFiles());

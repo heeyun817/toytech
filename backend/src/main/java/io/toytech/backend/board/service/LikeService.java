@@ -3,8 +3,8 @@ package io.toytech.backend.board.service;
 import io.toytech.backend.board.domain.Board;
 import io.toytech.backend.board.domain.Like;
 import io.toytech.backend.board.repository.LikeRepository;
-import io.toytech.backend.members.domain.Member;
-import io.toytech.backend.members.service.MemberService;
+import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ public class LikeService {
   @Transactional
   public void likeBoard(Long boardId, Long memberId) {
     Board board = boardService.findOneReturnEntity(boardId);
-    Member member = memberService.findOneReturnEntity(memberId);
+    Member member = memberService.findById(memberId).get();
     if (likeRepository.existsByBoardAndMember(board,
         member)) { //이미 좋아요를 눌렀다면 -> 취소가 되어야 한다.
       Like like = likeRepository.findByBoardAndMember(board, member);
