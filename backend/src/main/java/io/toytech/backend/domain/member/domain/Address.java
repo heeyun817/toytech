@@ -1,4 +1,4 @@
-package io.toytech.backend.member.domain;
+package io.toytech.backend.domain.member.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package io.toytech.backend.security;
+package io.toytech.backend.global.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

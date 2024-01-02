@@ -1,7 +1,7 @@
-package io.toytech.backend.member.service;
+package io.toytech.backend.domain.member.service;
 
-import io.toytech.backend.member.domain.Member;
-import io.toytech.backend.member.repository.MemberRepository;
+import io.toytech.backend.domain.member.domain.Member;
+import io.toytech.backend.domain.member.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

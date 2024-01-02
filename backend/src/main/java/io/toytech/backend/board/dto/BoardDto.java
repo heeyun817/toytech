@@ -5,7 +5,7 @@ import io.toytech.backend.board.constant.BoardType;
 import io.toytech.backend.board.domain.Board;
 import io.toytech.backend.board.domain.BoardFile;
 import io.toytech.backend.comment.dto.CommentDto;
-import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.domain.member.domain.Member;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import java.time.LocalDateTime;

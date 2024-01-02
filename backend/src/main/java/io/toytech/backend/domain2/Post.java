@@ -2,7 +2,7 @@ package io.toytech.backend.domain2;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.domain.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,27 +29,20 @@ import org.hibernate.annotations.SQLDelete;
 @Getter
 public class Post extends BaseTimeEntity {
 
+  @OneToMany(mappedBy = "post")
+  private final List<Image> imageList = new ArrayList<>();
+  @OneToMany(mappedBy = "post")
+  private final Set<Skill> skills = new HashSet<>();
   @Id
   @GeneratedValue(strategy = IDENTITY)
   @Column(name = "post_id")
   private Long id;
-
   private String title;
-
   private String content;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private Member member;
-
-  @OneToMany(mappedBy = "post")
-  private final List<Image> imageList = new ArrayList<>();
-
   private boolean isDeleted = false;
-
-  @OneToMany(mappedBy = "post")
-  private final Set<Skill> skills = new HashSet<>();
-
   private float score = 0.0f;
 
   private int views = 0;

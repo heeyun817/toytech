@@ -1,6 +1,6 @@
-package io.toytech.backend.member.domain;
+package io.toytech.backend.domain.member.domain;
 
-import io.toytech.backend.member.constant.Status;
+import io.toytech.backend.domain.member.constant.Status;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

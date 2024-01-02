@@ -1,7 +1,7 @@
-package io.toytech.backend.member.repository;
+package io.toytech.backend.domain.member.repository;
 
-import io.toytech.backend.member.domain.Member;
-import io.toytech.backend.member.domain.MemberRatings;
+import io.toytech.backend.domain.member.domain.Member;
+import io.toytech.backend.domain.member.domain.MemberRatings;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

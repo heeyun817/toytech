@@ -1,8 +1,8 @@
-package io.toytech.backend.member.service;
+package io.toytech.backend.domain.member.service;
 
-import io.toytech.backend.member.domain.Member;
-import io.toytech.backend.member.domain.MemberRatings;
-import io.toytech.backend.member.repository.MemberRatingsRepository;
+import io.toytech.backend.domain.member.domain.Member;
+import io.toytech.backend.domain.member.repository.MemberRatingsRepository;
+import io.toytech.backend.domain.member.domain.MemberRatings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

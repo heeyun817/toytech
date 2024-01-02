@@ -1,10 +1,10 @@
-package io.toytech.backend.member.controller;
+package io.toytech.backend.domain.member.controller;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import io.toytech.backend.member.domain.Member;
-import io.toytech.backend.member.service.MemberService;
+import io.toytech.backend.domain.member.service.MemberService;
+import io.toytech.backend.domain.member.domain.Member;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
