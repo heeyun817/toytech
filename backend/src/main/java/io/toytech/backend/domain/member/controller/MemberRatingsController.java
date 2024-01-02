@@ -1,6 +1,6 @@
-package io.toytech.backend.member.controller;
+package io.toytech.backend.domain.member.controller;
 
-import io.toytech.backend.member.service.MemberRatingsService;
+import io.toytech.backend.domain.member.service.MemberRatingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;

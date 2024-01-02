@@ -1,4 +1,4 @@
-package io.toytech.backend.security.token;
+package io.toytech.backend.global.security.token;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;

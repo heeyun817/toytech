@@ -1,6 +1,6 @@
 package io.toytech.backend.board.domain;
 
-import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.domain.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

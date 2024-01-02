@@ -1,6 +1,6 @@
-package io.toytech.backend.member.service;
+package io.toytech.backend.domain.member.service;
 
-import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.domain.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
 

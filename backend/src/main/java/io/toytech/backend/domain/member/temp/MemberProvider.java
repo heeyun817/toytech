@@ -1,9 +1,9 @@
-package io.toytech.backend.member.temp;
+package io.toytech.backend.domain.member.temp;
 
-import io.toytech.backend.member.constant.Status;
-import io.toytech.backend.member.domain.Address;
-import io.toytech.backend.member.domain.Member;
-import io.toytech.backend.member.service.MemberService;
+import io.toytech.backend.domain.member.constant.Status;
+import io.toytech.backend.domain.member.service.MemberService;
+import io.toytech.backend.domain.member.domain.Address;
+import io.toytech.backend.domain.member.domain.Member;
 import java.time.LocalDateTime;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;

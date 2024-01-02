@@ -1,4 +1,4 @@
-package io.toytech.backend.member.constant;
+package io.toytech.backend.domain.member.constant;
 
 import lombok.Getter;
 
