@@ -3,7 +3,7 @@ package io.toytech.backend.board.domain;
 import io.toytech.backend.board.constant.BoardType;
 import io.toytech.backend.board.dto.BoardDto;
 import io.toytech.backend.comment.domain.Comment;
-import io.toytech.backend.members.domain.Member;
+import io.toytech.backend.member.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
