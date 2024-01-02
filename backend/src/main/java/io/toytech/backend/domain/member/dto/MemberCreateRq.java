@@ -1,6 +1,6 @@
-package io.toytech.backend.member.dto;
+package io.toytech.backend.domain.member.dto;
 
-import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.domain.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
