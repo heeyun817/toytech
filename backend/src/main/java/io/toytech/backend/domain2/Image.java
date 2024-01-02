@@ -1,5 +1,4 @@
-package io.toytech.backend.domain;
-
+package io.toytech.backend.domain2;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -12,14 +11,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Skill {
+public class Image extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
-  @Column(name = "skill_id")
+  @Column(name = "image_id")
   private Long id;
 
-  private String name;
+  private String originName;
+
+  private String saveName;
+
+  private String imageUrl;
+
+  private int size;
+
+  private boolean isDeleted;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id")

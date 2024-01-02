@@ -1,4 +1,4 @@
-package io.toytech.backend.domain;
+package io.toytech.backend.domain2;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
