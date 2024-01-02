@@ -3,8 +3,10 @@ package io.toytech.backend.domain.member.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import io.toytech.backend.domain.member.service.MemberService;
 import io.toytech.backend.domain.member.domain.Member;
+import io.toytech.backend.domain.member.dto.MemberCreateRq;
+import io.toytech.backend.domain.member.dto.MemberRs;
+import io.toytech.backend.domain.member.service.MemberService;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +31,15 @@ public class MemberController {
   @Autowired
   public MemberController(MemberService memberService) {
     this.memberService = memberService;
+  }
+
+  @PostMapping("/dto")
+  public EntityModel<MemberRs> create(@RequestBody MemberCreateRq request) {
+    MemberRs memberRs = memberService.createDto(request);
+    EntityModel<MemberRs> entityModel = EntityModel.of(memberRs);
+    WebMvcLinkBuilder link = linkTo(methodOn(getClass()).findById(memberRs.getId()));
+    entityModel.add(link.withSelfRel());
+    return entityModel;
   }
 
   /**
@@ -63,6 +74,7 @@ public class MemberController {
     EntityModel<Member> entityModel = EntityModel.of(member.get());
     WebMvcLinkBuilder link = linkTo(methodOn(getClass()).findAll());
     entityModel.add(link.withRel("all-members"));
+
     return entityModel;
   }
 
