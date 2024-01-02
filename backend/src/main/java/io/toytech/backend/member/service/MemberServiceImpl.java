@@ -1,6 +1,8 @@
 package io.toytech.backend.member.service;
 
 import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.member.dto.MemberCreateRq;
+import io.toytech.backend.member.dto.MemberRs;
 import io.toytech.backend.member.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +42,12 @@ public class MemberServiceImpl implements MemberService {
   @Override
   public void delete(Long id) {
     memberRepository.deleteById(id);
+  }
+
+  @Override
+  public MemberRs createDto(MemberCreateRq request) {
+    return MemberRs.builder()
+        .member(memberRepository.save(request.toEntity()))
+        .build();
   }
 }
