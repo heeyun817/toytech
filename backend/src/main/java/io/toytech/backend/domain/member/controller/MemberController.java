@@ -7,11 +7,12 @@ import io.toytech.backend.domain.member.domain.Member;
 import io.toytech.backend.domain.member.dto.MemberCreateRequest;
 import io.toytech.backend.domain.member.dto.MemberRs;
 import io.toytech.backend.domain.member.service.MemberService;
-import java.net.URI;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,14 +34,6 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  @PostMapping("/dto")
-  public EntityModel<MemberRs> create(@RequestBody MemberCreateRequest request) {
-    MemberRs memberRs = memberService.createDto(request);
-    EntityModel<MemberRs> entityModel = EntityModel.of(memberRs);
-    WebMvcLinkBuilder link = linkTo(methodOn(getClass()).findById(memberRs.getId()));
-    entityModel.add(link.withSelfRel());
-    return entityModel;
-  }
 
   /**
    * 모든 엔터티를 검색한다.
@@ -79,16 +72,16 @@ public class MemberController {
   }
 
   /**
-   * 새 회원을 생성하고 생성된 회원의 위치와 함께 ResponseEntity를 반환한다..
+   * 지정된 MemberCreateRequest 개체를 처리하여 새 회원을 만든다.
    *
-   * @param member 생성될 Member 객체
-   * @return 생성된 멤버의 위치가 포함된 ResponseEntity
+   * @param request 생성된 회원의 정보가 포함된 MemberCreateRequest 객체
+   * @return 새로 생성된 MemberRs 객체를 포함하는 ResponseEntity 객체
    */
   @PostMapping()
-  public ResponseEntity<Object> create(@RequestBody Member member) {
-    Member savedMember = memberService.create(member);
-    URI location = linkTo(MemberController.class).slash(savedMember.getId()).toUri();
-    return ResponseEntity.created(location).build();
+  public ResponseEntity<MemberRs> create(@RequestBody @Valid MemberCreateRequest request) {
+    MemberRs memberRs = memberService.createDto(request);
+    Link link = linkTo(getClass()).slash(memberRs.getId()).withSelfRel();
+    return ResponseEntity.created(link.toUri()).body(memberRs);
   }
 
   @DeleteMapping("/{id}")
