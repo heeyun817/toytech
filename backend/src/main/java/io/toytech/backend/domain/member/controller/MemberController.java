@@ -4,7 +4,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import io.toytech.backend.domain.member.domain.Member;
-import io.toytech.backend.domain.member.dto.MemberCreateRq;
+import io.toytech.backend.domain.member.dto.MemberCreateRequest;
 import io.toytech.backend.domain.member.dto.MemberRs;
 import io.toytech.backend.domain.member.service.MemberService;
 import java.net.URI;
@@ -34,7 +34,7 @@ public class MemberController {
   }
 
   @PostMapping("/dto")
-  public EntityModel<MemberRs> create(@RequestBody MemberCreateRq request) {
+  public EntityModel<MemberRs> create(@RequestBody MemberCreateRequest request) {
     MemberRs memberRs = memberService.createDto(request);
     EntityModel<MemberRs> entityModel = EntityModel.of(memberRs);
     WebMvcLinkBuilder link = linkTo(methodOn(getClass()).findById(memberRs.getId()));
