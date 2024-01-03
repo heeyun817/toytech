@@ -1,5 +1,6 @@
 package io.toytech.backend.domain.member.dto;
 
+import io.toytech.backend.domain.member.constant.Status;
 import io.toytech.backend.domain.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class MemberCreateRq {
         .email(email)
         .name(name)
         .password(password)
+        .status(Status.MEMBER)
         .build();
   }
 }
