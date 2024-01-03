@@ -46,7 +46,7 @@ public class Member {
   private String name;
 
   @Past
-  @Column(name = "date_birth", nullable = false)
+  @Column(name = "date_birth")
   private LocalDateTime dateBirth;
 
   @Embedded
