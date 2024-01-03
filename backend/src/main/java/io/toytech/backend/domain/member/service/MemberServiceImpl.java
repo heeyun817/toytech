@@ -50,4 +50,5 @@ public class MemberServiceImpl implements MemberService {
         .member(memberRepository.save(request.toEntity()))
         .build();
   }
+
 }

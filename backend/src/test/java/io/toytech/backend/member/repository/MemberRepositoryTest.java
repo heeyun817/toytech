@@ -3,7 +3,7 @@ package io.toytech.backend.member.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.toytech.backend.domain.member.constant.Status;
+import io.toytech.backend.domain.member.constant.Grade;
 import io.toytech.backend.domain.member.domain.Address;
 import io.toytech.backend.domain.member.domain.Member;
 import io.toytech.backend.domain.member.repository.MemberRepository;
@@ -40,7 +40,7 @@ class MemberRepositoryTest {
         .name("상우")
         .dateBirth(LocalDateTime.now())
         .address(address)
-        .status(Status.MEMBER)
+        .grade(Grade.MEMBER)
         .build());
   }
 

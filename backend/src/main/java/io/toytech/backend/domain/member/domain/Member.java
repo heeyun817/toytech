@@ -1,6 +1,6 @@
 package io.toytech.backend.domain.member.domain;
 
-import io.toytech.backend.domain.member.constant.Status;
+import io.toytech.backend.domain.member.constant.Grade;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -62,18 +62,18 @@ public class Member {
   @Column(name = "update_at", nullable = false)
   private LocalDateTime updateAt;
 
-  @Column(name = "status", nullable = false, length = 1)
-  private Status status;
+  @Column(name = "grade", nullable = false, length = 1)
+  private Grade grade;
 
 
   @Builder
   public Member(String email, String password, String name, LocalDateTime dateBirth,
-      Address address, Status status) {
+      Address address, Grade grade) {
     this.email = email;
     this.password = password;
     this.name = name;
     this.dateBirth = dateBirth;
     this.address = address;
-    this.status = status;
+    this.grade = (grade == null) ? Grade.MEMBER : grade;
   }
 }

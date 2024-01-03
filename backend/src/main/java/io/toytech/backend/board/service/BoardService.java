@@ -5,7 +5,7 @@ import io.toytech.backend.board.domain.Board;
 import io.toytech.backend.board.domain.BoardFile;
 import io.toytech.backend.board.dto.BoardDto;
 import io.toytech.backend.board.repository.BoardRepository;
-import io.toytech.backend.domain.member.constant.Status;
+import io.toytech.backend.domain.member.constant.Grade;
 import io.toytech.backend.domain.member.domain.Address;
 import io.toytech.backend.domain.member.domain.Member;
 import io.toytech.backend.domain.member.repository.MemberRepository;
@@ -59,7 +59,7 @@ public class BoardService {
         .name("Kim")
         .dateBirth(LocalDateTime.now())
         .address(address)
-        .status(Status.MEMBER)
+        .grade(Grade.MEMBER)
         .build(); //가정의 유저 생성
     memberRepository.save(member);
 

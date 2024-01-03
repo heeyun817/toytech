@@ -1,6 +1,5 @@
 package io.toytech.backend.domain.member.dto;
 
-import io.toytech.backend.domain.member.constant.Status;
 import io.toytech.backend.domain.member.domain.Member;
 import jakarta.validation.constraints.Email;
 
@@ -16,7 +15,6 @@ public record MemberCreateRequest(
         .email(email)
         .name(name)
         .password(password)
-        .status(Status.MEMBER)
         .build();
   }
 }

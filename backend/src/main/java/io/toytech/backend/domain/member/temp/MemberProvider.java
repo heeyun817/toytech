@@ -1,9 +1,9 @@
 package io.toytech.backend.domain.member.temp;
 
-import io.toytech.backend.domain.member.constant.Status;
-import io.toytech.backend.domain.member.service.MemberService;
+import io.toytech.backend.domain.member.constant.Grade;
 import io.toytech.backend.domain.member.domain.Address;
 import io.toytech.backend.domain.member.domain.Member;
+import io.toytech.backend.domain.member.service.MemberService;
 import java.time.LocalDateTime;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,7 @@ public class MemberProvider {
             .name("상우" + i)
             .dateBirth(LocalDateTime.now())
             .address(address)
-            .status(Status.MEMBER)
+            .grade(Grade.MEMBER)
             .build());
       }
 
