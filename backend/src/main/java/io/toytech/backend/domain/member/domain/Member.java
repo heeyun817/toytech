@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Past;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -35,8 +34,7 @@ public class Member {
   @Column(name = "id", updatable = false)
   private Long id;
 
-  @Email(message = "이메일 형식에 맞지 않습니다.")
-  @Column(name = "email", nullable = false, unique = true, updatable = false, length = 50)
+  @Column(name = "email", nullable = false, unique = true, length = 50)
   private String email;
 
   @Column(name = "password", nullable = false, length = 50)
