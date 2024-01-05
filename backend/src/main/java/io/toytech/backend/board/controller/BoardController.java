@@ -1,9 +1,7 @@
 package io.toytech.backend.board.controller;
 
 import io.toytech.backend.board.constant.BoardType;
-import io.toytech.backend.board.domain.BoardFile;
 import io.toytech.backend.board.dto.BoardDto;
-import io.toytech.backend.board.service.BoardFileService;
 import io.toytech.backend.board.service.BoardService;
 import java.io.IOException;
 import java.util.List;
@@ -15,11 +13,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,9 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardController {
 
   private final BoardService boardService;
-  private final BoardFileService boardFileService;
 
-  @GetMapping("board")
+  @GetMapping("/board")
   public ResponseEntity<Page<BoardDto>> boardList(@RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int size,
       @RequestParam(defaultValue = "createdAt") String sort,
@@ -76,7 +75,7 @@ public class BoardController {
     return ResponseEntity.ok(boardService.findOneReturnDto(id));
   }
 
-  @PatchMapping("/board/{boardId}/edit") //커뮤니티 수정 (제목, 본문, 타입, 수정된 날짜가 바뀜)
+  @PutMapping("/board/{boardId}/edit") //커뮤니티 수정 (제목, 본문, 타입, 수정된 날짜가 바뀜)
   public ResponseEntity<Long> updateBoard(@PathVariable("boardId") Long id,
       @RequestParam("title") String title,
       @RequestParam("content") String content,
@@ -89,10 +88,9 @@ public class BoardController {
 
 
   @DeleteMapping("/board/{boardId}/delete")  //디렉토리에 있는 첨부파일도 삭제해야 함
-  public ResponseEntity<Void> deleteBoard(@PathVariable("boardId") Long boardId) {
-    List<BoardFile> boardFiles = boardService.findOneReturnEntity(boardId).getBoardFiles();
-    boardService.deleteBoard(boardId); //게시글 삭제
-    boardFileService.deleteBoardFiles(boardFiles); //디렉토리(로컬)에서 첨부파일 삭제
+  public ResponseEntity<Void> deleteBoard(@AuthenticationPrincipal UserDetails userDetails,
+      @PathVariable("boardId") Long boardId) {
+    boardService.deleteBoard(userDetails, boardId); //게시글 삭제
     return ResponseEntity.noContent().build();
   }
 }
