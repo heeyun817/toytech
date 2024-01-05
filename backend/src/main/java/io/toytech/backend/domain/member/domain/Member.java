@@ -16,24 +16,30 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.ToString.Include;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
+@SQLDelete(sql = "UPDATE member SET deleted = true WHERE id = ?")
+//@Where(clause = "deleted = 'N'") jpa 최신버전은 Deprecated 되었다
+//@FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+//@Filter(name = "deletedProductFilter", condition = "deleted = :isDeleted")
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString(of = {"name", "email"})
 public class Member {
 
   @Id
+  @Include
   @EqualsAndHashCode.Include
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", updatable = false)
   private Long id;
 
+  @Include
   @Column(name = "email", nullable = false, unique = true, length = 50)
   private String email;
 
@@ -65,6 +71,9 @@ public class Member {
   @Column(name = "grade", nullable = false, length = 1)
   private Grade grade;
 
+  @Column(name = "deleted", nullable = false, length = 1)
+  private boolean deleted;
+
 
   @Builder
   public Member(String email, String password, String name, LocalDateTime dateBirth,
@@ -75,5 +84,6 @@ public class Member {
     this.dateBirth = dateBirth;
     this.address = address;
     this.grade = (grade == null) ? Grade.MEMBER : grade;
+    this.deleted = false;
   }
 }
