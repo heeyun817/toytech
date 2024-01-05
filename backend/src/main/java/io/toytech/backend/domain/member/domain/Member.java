@@ -1,16 +1,20 @@
 package io.toytech.backend.domain.member.domain;
 
+import io.toytech.backend.domain.board.domain.Board;
 import io.toytech.backend.domain.member.constant.Grade;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Past;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -73,6 +77,9 @@ public class Member {
 
   @Column(name = "deleted", nullable = false, length = 1)
   private boolean deleted;
+
+  @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+  private List<Board> boards;
 
 
   @Builder
