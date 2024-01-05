@@ -8,18 +8,18 @@ import java.util.stream.Stream;
  * Status 열거형을 수정, 삭제해도 DB에 영향 받지 않게 하기 위한 JPA Converter
  */
 @Converter(autoApply = true)
-public class StatusConverter implements AttributeConverter<Status, String> {
+public class StatusConverter implements AttributeConverter<Grade, String> {
 
   /**
-   * @param status 변환할 엔티티 속성 값
+   * @param grade 변환할 엔티티 속성 값
    * @return 데이터베이스 열 값
    */
   @Override
-  public String convertToDatabaseColumn(Status status) {
-    if (status == null) {
+  public String convertToDatabaseColumn(Grade grade) {
+    if (grade == null) {
       return null;
     }
-    return status.getCode();
+    return grade.getCode();
   }
 
   /**
@@ -27,11 +27,11 @@ public class StatusConverter implements AttributeConverter<Status, String> {
    * @return 엔티티 속성 값
    */
   @Override
-  public Status convertToEntityAttribute(String code) {
+  public Grade convertToEntityAttribute(String code) {
     if (code == null) {
       return null;
     }
-    return Stream.of(Status.values())
+    return Stream.of(Grade.values())
         .filter(st -> st.getCode().equals(code))
         .findFirst()
         .orElseThrow(IllegalArgumentException::new);
