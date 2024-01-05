@@ -24,7 +24,7 @@ public class BoardFileService {
     boardFileRepository.save(boardFile);
   }
 
-  public BoardFile getBoardFileById(Long boardFileId) { //uses or overrides a deprecated API. (체크하자)
+  public BoardFile getBoardFileById(Long boardFileId) {
     return boardFileRepository.findById(boardFileId).get();
   }
 
@@ -32,8 +32,9 @@ public class BoardFileService {
   @PreRemove
   public void deleteBoardFiles(List<BoardFile> boardFiles) {
     for (BoardFile boardFile : boardFiles) {
-      deleteBoardFileInLocal(boardFile.getSavedFileName());
+      deleteBoardFileInLocal(boardFile.getSavedFileName()); //로컬에서 파일 삭제
     }
+    deleteBoardFileInDB(boardFiles); //db에서 파일 삭제
   }
 
   private void deleteBoardFileInLocal(String savedFileName) {
@@ -48,7 +49,7 @@ public class BoardFileService {
   }
 
   @Transactional
-  public void deleteBoardFileInDB(List<BoardFile> boardFiles) {
+  private void deleteBoardFileInDB(List<BoardFile> boardFiles) {
     for (BoardFile boardFile : boardFiles) {
       boardFileRepository.delete(boardFile);
     }

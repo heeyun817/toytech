@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,6 +62,7 @@ public class BoardService {
         .address(address)
         .grade(Grade.MEMBER)
         .build(); //가정의 유저 생성
+
     memberRepository.save(member);
 
     List<BoardFile> boardFiles = fileStore.storeFiles(boardDto.getMultipartFiles());
@@ -84,21 +86,31 @@ public class BoardService {
     List<BoardFile> boardFiles = fileStore.storeFiles(boardDto.getMultipartFiles());  //수정한 첨부파일
     board.updateBoard(boardDto, boardFiles); //업데이트
 
-    boardFileService.deleteBoardFiles(beforeUpdateBoardFiles);
     for (BoardFile boardFile : boardFiles) {  //수정한 첨부파일 db에 저장
       boardFile.connetBoardId(board);
     }
 
     boardFileService.deleteBoardFiles(beforeUpdateBoardFiles); //기존 첨부파일 삭제
-    boardFileService.deleteBoardFileInDB(beforeUpdateBoardFiles);
-
   }
 
+  /**
+   * 게시글을 삭제한다. (더 생각해야 할 것: 예외처리 (게시글이 존재하지 않는다면, 로그인 유저가 게시글 생성자가 아니라면))
+   *
+   * @return
+   */
   @Transactional
-  public void deleteBoard(Long id) { //게시글 삭제
-    boardRepository.deleteById(id);
-  }
+  public void deleteBoard(UserDetails userDetails,
+      Long boardId) { //게시글 삭제 (게시글 작성자, 현재 로그인 유저가 같아야 함)
 
+    boardRepository.findById(boardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + boardId));
+
+    if (isPostCreatedByCurrentUser(userDetails, boardId)) {
+      List<BoardFile> boardFiles = findOneReturnEntity(boardId).getBoardFiles();
+      boardFileService.deleteBoardFiles(boardFiles); //디렉토리(로컬)에서 첨부파일 삭제
+      boardRepository.deleteById(boardId);
+    }
+  }
 
   @Transactional
   public void updateLikeCount(Board board, int num) { //num이 1이면 좋아요 +1, -1이면 좋아요 -1
@@ -112,4 +124,15 @@ public class BoardService {
   public Page<Board> getBoardsByType(BoardType boardType, Pageable pageable) {
     return boardRepository.findByBoardType(boardType, pageable);
   }
+
+
+  private boolean isPostCreatedByCurrentUser(UserDetails userDetails,
+      Long boardId) {
+    log.info("userDetails = {}", userDetails);
+    String username = userDetails.getUsername();
+    Member loginMember = memberRepository.findByName(username).get(0); //로그인 한 멤버
+    Member createBoardMember = boardRepository.findById(boardId).get().getMember(); //게시글 작성한 멤버
+    return (loginMember == createBoardMember);
+  }
+
 }
