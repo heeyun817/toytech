@@ -3,9 +3,10 @@ package io.toytech.backend.member.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.toytech.backend.member.constant.Status;
-import io.toytech.backend.member.domain.Address;
-import io.toytech.backend.member.domain.Member;
+import io.toytech.backend.domain.member.constant.Grade;
+import io.toytech.backend.domain.member.domain.Address;
+import io.toytech.backend.domain.member.domain.Member;
+import io.toytech.backend.domain.member.repository.MemberRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,7 @@ class MemberRepositoryTest {
         .name("상우")
         .dateBirth(LocalDateTime.now())
         .address(address)
-        .status(Status.MEMBER)
+        .grade(Grade.MEMBER)
         .build());
   }
 

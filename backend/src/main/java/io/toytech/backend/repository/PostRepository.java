@@ -1,6 +1,6 @@
 package io.toytech.backend.repository;
 
-import io.toytech.backend.domain.Post;
+import io.toytech.backend.domain2.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
