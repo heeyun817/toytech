@@ -1,7 +1,7 @@
-package io.toytech.backend.recruitment.service;
+package io.toytech.backend.domain.recruitment.service;
 
-import io.toytech.backend.recruitment.domain.Recruitment;
-import io.toytech.backend.recruitment.domain.Tag;
+import io.toytech.backend.domain.recruitment.domain.Recruitment;
+import io.toytech.backend.domain.recruitment.domain.Tag;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

@@ -1,10 +1,7 @@
-package io.toytech.backend.recruitment.repository;
+package io.toytech.backend.domain.recruitment.repository;
 
-import io.toytech.backend.recruitment.domain.RecruitmentTag;
-import io.toytech.backend.recruitment.domain.Tag;
+import io.toytech.backend.domain.recruitment.domain.RecruitmentTag;
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

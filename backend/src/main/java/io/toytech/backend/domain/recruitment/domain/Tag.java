@@ -1,4 +1,4 @@
-package io.toytech.backend.recruitment.domain;
+package io.toytech.backend.domain.recruitment.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;

@@ -1,7 +1,7 @@
-package io.toytech.backend.recruitment.dto;
+package io.toytech.backend.domain.recruitment.dto;
 
-import io.toytech.backend.recruitment.domain.Recruitment;
-import io.toytech.backend.recruitment.domain.Tag;
+import io.toytech.backend.domain.recruitment.domain.Recruitment;
+import io.toytech.backend.domain.recruitment.domain.Tag;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;

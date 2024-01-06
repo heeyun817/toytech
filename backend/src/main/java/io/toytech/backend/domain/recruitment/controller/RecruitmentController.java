@@ -1,15 +1,13 @@
-package io.toytech.backend.recruitment.controller;
+package io.toytech.backend.domain.recruitment.controller;
 
-import io.toytech.backend.recruitment.domain.Recruitment;
-import io.toytech.backend.recruitment.domain.Tag;
-import io.toytech.backend.recruitment.dto.RecruitmentDto;
-import io.toytech.backend.recruitment.service.RecruitmentService;
+import io.toytech.backend.domain.recruitment.domain.Recruitment;
+import io.toytech.backend.domain.recruitment.domain.Tag;
+import io.toytech.backend.domain.recruitment.dto.RecruitmentDto;
+import io.toytech.backend.domain.recruitment.service.RecruitmentService;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;

@@ -1,17 +1,16 @@
-package io.toytech.backend.recruitment.service;
+package io.toytech.backend.domain.recruitment.service;
 
-import io.toytech.backend.recruitment.domain.Recruitment;
-import io.toytech.backend.recruitment.domain.RecruitmentTag;
-import io.toytech.backend.recruitment.domain.Tag;
-import io.toytech.backend.recruitment.repository.RecruitmentRepository;
-import io.toytech.backend.recruitment.repository.RecruitmentTagRepository;
-import io.toytech.backend.recruitment.repository.TagRepository;
+import io.toytech.backend.domain.recruitment.domain.Recruitment;
+import io.toytech.backend.domain.recruitment.domain.RecruitmentTag;
+import io.toytech.backend.domain.recruitment.domain.Tag;
+import io.toytech.backend.domain.recruitment.repository.RecruitmentTagRepository;
+import io.toytech.backend.domain.recruitment.repository.TagRepository;
+import io.toytech.backend.domain.recruitment.repository.RecruitmentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
