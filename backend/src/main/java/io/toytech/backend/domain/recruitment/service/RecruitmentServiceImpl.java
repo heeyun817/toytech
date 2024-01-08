@@ -53,9 +53,8 @@ public class RecruitmentServiceImpl implements RecruitmentService{
   // 게시글 id별 조회
   @Override
   public Map<Recruitment, List<Tag>> findById(Long id) {
-    Optional<Recruitment> optionalRecruitment = recruitmentRepository.findById(id);
-    if (optionalRecruitment.isPresent()) {
-    Recruitment recruitment = optionalRecruitment.get(); //java.util.NoSuchElementException
+    Recruitment recruitment = recruitmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id));
+
     Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
     List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(id);
     List<Tag> tags = new ArrayList<>();
@@ -66,9 +65,8 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
     recruitmentTagMap.put(recruitment, tags);
     return recruitmentTagMap;
-    }
-    throw new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id);
   }
+
 
   // 글 작성
   @Override
@@ -127,9 +125,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
   // 글 삭제
   @Override
   public void deleteRecruitment(Long id) {
-    Optional<Recruitment> optionalRecruitment = recruitmentRepository.findById(id);
-    if (optionalRecruitment.isPresent()) {
-      Recruitment recruitment = optionalRecruitment.get();
+    Recruitment recruitment = recruitmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id));
 
       // 기존 관계 null 처리 (삭제하지 않음)
       List<RecruitmentTag> tags = recruitmentTagRepository.findByRecruitmentId(id);
@@ -138,10 +134,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         tag.setTag(null);
         recruitmentTagRepository.save(tag);
       }
-
       recruitmentRepository.delete(recruitment);
-
-    } else throw new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id);
   }
 
   // 조회수 증가

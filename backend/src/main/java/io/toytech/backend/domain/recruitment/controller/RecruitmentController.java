@@ -29,7 +29,7 @@ public class RecruitmentController {
 
   private final RecruitmentService service;
 
-  // 모든 글 조회 (최신순 :recent, 조회순:views, 댓글순:comments)
+  // 모든 글 조회 (최신순 :createAt, 조회순:view, 댓글순:comment)
   @GetMapping("/recruitments")
   public Map<Recruitment, List<Tag>> getAllRecruitments(
       @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
