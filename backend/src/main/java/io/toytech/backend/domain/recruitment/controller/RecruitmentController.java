@@ -2,7 +2,8 @@ package io.toytech.backend.domain.recruitment.controller;
 
 import io.toytech.backend.domain.recruitment.domain.Recruitment;
 import io.toytech.backend.domain.recruitment.domain.Tag;
-import io.toytech.backend.domain.recruitment.dto.RecruitmentDto;
+import io.toytech.backend.domain.recruitment.dto.RecruitmentRq;
+import io.toytech.backend.domain.recruitment.dto.RecruitmentRs;
 import io.toytech.backend.domain.recruitment.service.RecruitmentService;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,9 @@ public class RecruitmentController {
   private final RecruitmentService service;
 
   // 모든 글 조회 (최신순 :createAt, 조회순:view, 댓글순:comment)
+  // 검색
   @GetMapping("/recruitments")
-  public Map<Recruitment, List<Tag>> getAllRecruitments(
+  public List<RecruitmentRs> getAllRecruitments(
       @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       @RequestParam(required = false) String keyword,
       @RequestParam(required = false) Boolean active) {
@@ -43,25 +45,25 @@ public class RecruitmentController {
 
   // 특정 글 조회
   @GetMapping("/recruitments/{id}")
-  public Map<Recruitment, List<Tag>> getRecruitmentById(@PathVariable Long id) {
+  public RecruitmentRs getRecruitmentById(@PathVariable Long id) {
     service.updateView(id);
     return service.findById(id);
   }
 
   // 글 작성
   @PostMapping("/recruitments")
-  public Map<Recruitment, List<Tag>> createRecruitment(@RequestBody RecruitmentDto recruitmentDto) {
-    Recruitment recruitment = recruitmentDto.getRecruitment();
-    Set<Tag> tags = recruitmentDto.getTags();
+  public RecruitmentRs createRecruitment(@RequestBody RecruitmentRq recruitmentRq) {
+    Recruitment recruitment = recruitmentRq.getRecruitment();
+    Set<Tag> tags = recruitmentRq.getTags();
 
     return service.createRecruitment(recruitment, tags);
   }
 
   // 글 수정
   @PutMapping("/recruitments/{id}")
-  public ResponseEntity<Map<Recruitment, List<Tag>>> updateRecruitment(@PathVariable Long id, @RequestBody RecruitmentDto recruitmentDto) {
+  public ResponseEntity<RecruitmentRs> updateRecruitment(@PathVariable Long id, @RequestBody RecruitmentRq recruitmentRq) {
     try {
-      Map<Recruitment, List<Tag>> updatedRecruitment = service.updateRecruitment(id, recruitmentDto.getRecruitment(), recruitmentDto.getTags());
+      RecruitmentRs updatedRecruitment = service.updateRecruitment(id, recruitmentRq.getRecruitment(), recruitmentRq.getTags());
       return new ResponseEntity<>(updatedRecruitment, HttpStatus.OK);
     } catch (EntityNotFoundException e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,7 +83,7 @@ public class RecruitmentController {
 
   // 태그 검색
   @GetMapping("/recruitments/tagSearch")
-  public Map<Recruitment, List<Tag>> getRecruitmentByTag(
+  public List<RecruitmentRs> getRecruitmentByTag(
       @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       @RequestParam String tag,
       @RequestParam(required = false) Boolean active) {

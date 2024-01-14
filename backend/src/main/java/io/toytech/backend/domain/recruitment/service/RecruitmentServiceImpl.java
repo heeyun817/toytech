@@ -3,6 +3,7 @@ package io.toytech.backend.domain.recruitment.service;
 import io.toytech.backend.domain.recruitment.domain.Recruitment;
 import io.toytech.backend.domain.recruitment.domain.RecruitmentTag;
 import io.toytech.backend.domain.recruitment.domain.Tag;
+import io.toytech.backend.domain.recruitment.dto.RecruitmentRs;
 import io.toytech.backend.domain.recruitment.repository.RecruitmentTagRepository;
 import io.toytech.backend.domain.recruitment.repository.TagRepository;
 import io.toytech.backend.domain.recruitment.repository.RecruitmentRepository;
@@ -25,7 +26,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 전체 글 조회
   @Override
-  public Map<Recruitment, List<Tag>> findAll(Pageable pageable, Boolean active) {
+  public List<RecruitmentRs> findAll(Pageable pageable, Boolean active) {
     Page<Recruitment> allRecruitments;
     if(active != null){
       allRecruitments = recruitmentRepository.findAllByActive(pageable,active);
@@ -33,7 +34,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
       allRecruitments = recruitmentRepository.findAll(pageable);
     }
 
-    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
+    List<RecruitmentRs> recruitmentRsList = new ArrayList<>();
 
     for (Recruitment recruitment : allRecruitments.getContent()) {
       long recruitmentId = recruitment.getId();
@@ -44,18 +45,18 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         tags.add(tag);
       }
 
-      recruitmentTagMap.put(recruitment, tags);
+      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, new HashSet<>(tags));
+      recruitmentRsList.add(recruitmentRs);
     }
-    return recruitmentTagMap;
+    return recruitmentRsList;
   }
 
 
   // 게시글 id별 조회
   @Override
-  public Map<Recruitment, List<Tag>> findById(Long id) {
+  public RecruitmentRs findById(Long id) {
     Recruitment recruitment = recruitmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id));
 
-    Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
     List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(id);
     List<Tag> tags = new ArrayList<>();
     for (RecruitmentTag tagId : tagIds) {
@@ -63,33 +64,30 @@ public class RecruitmentServiceImpl implements RecruitmentService{
       tags.add(tag);
     }
 
-    recruitmentTagMap.put(recruitment, tags);
-    return recruitmentTagMap;
+    return new RecruitmentRs(recruitment, new HashSet<>(tags));
   }
 
 
   // 글 작성
   @Override
-  public Map<Recruitment, List<Tag>> createRecruitment(Recruitment recruitment, Set<Tag> tags){
-    Recruitment newrecruitment = recruitmentRepository.save(recruitment);
-    Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
-    List<Tag> taglist = new ArrayList<>();
+  public RecruitmentRs createRecruitment(Recruitment recruitment, Set<Tag> tags){
+    Recruitment newRecruitment = recruitmentRepository.save(recruitment);
+    List<Tag> tagList = new ArrayList<>();
     for (Tag tag : tags) {
       // 태그 이름으로 검색
       Tag tag1 = tagRepository.findByName(tag.getName()).orElseGet(()-> tagRepository.save(tag));
       recruitmentTagRepository.save(RecruitmentTag.builder()
-          .recruitment(newrecruitment)
+          .recruitment(newRecruitment)
           .tag(tag1)
           .build());
-      taglist.add(tag1);
+      tagList.add(tag1);
       }
-    recruitmentTagMap.put(recruitment, taglist);
-    return recruitmentTagMap;
+    return new RecruitmentRs(newRecruitment, new HashSet<>(tagList));
     }
 
   // 글 수정
   @Override
-  public Map<Recruitment, List<Tag>> updateRecruitment(Long id, Recruitment recruitment,Set<Tag> tags) {
+  public RecruitmentRs updateRecruitment(Long id, Recruitment recruitment,Set<Tag> tags) {
     Recruitment oldRecruitment = recruitmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id));
 
       // 글과 연결된 기존 RecruitmentTag 가져오기
@@ -117,9 +115,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         updatedTags.add(newTag);
       }
 
-      Map<Recruitment, List<Tag>> recruitmentTagMap = new HashMap<>();
-      recruitmentTagMap.put(updatedRecruitment, updatedTags);
-      return recruitmentTagMap;
+    return new RecruitmentRs(updatedRecruitment, new HashSet<>(updatedTags));
   }
 
   // 글 삭제
@@ -146,9 +142,9 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
   // 검색 기능
   @Override
-  public Map<Recruitment, List<Tag>> search(Pageable pageable, String keyword, Boolean active) {
+  public List<RecruitmentRs> search(Pageable pageable, String keyword, Boolean active) {
     Page<Recruitment> recruitments;
-    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
+    List<RecruitmentRs> recruitmentRsList = new ArrayList<>();
 
     if(active!=null){
         recruitments = recruitmentRepository.findByTitleContainingAndActive(keyword,pageable,active);
@@ -165,14 +161,15 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         tags.add(tag);
       }
 
-      recruitmentTagMap.put(recruitment, tags);
+      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, new HashSet<>(tags));
+      recruitmentRsList.add(recruitmentRs);
     }
-    return recruitmentTagMap;
+    return recruitmentRsList;
   }
 
   // 태그로 글 검색
   @Override
-  public Map<Recruitment, List<Tag>> findByTag(String tagName, Pageable pageable, Boolean active) {
+  public List<RecruitmentRs> findByTag(String tagName, Pageable pageable, Boolean active) {
     Tag tag = tagRepository.findByName(tagName).orElseThrow(() -> new EntityNotFoundException("해당 태그가 없습니다: " + tagName));
     Page<Recruitment> recruitmentPage;
     if(active != null){
@@ -181,16 +178,17 @@ public class RecruitmentServiceImpl implements RecruitmentService{
       recruitmentPage = recruitmentRepository.findByRecruitmentTagsTagId(tag.getId(), pageable);
     }
 
-    Map<Recruitment, List<Tag>> recruitmentTagMap = new LinkedHashMap<>();
+    List<RecruitmentRs> recruitmentRsList = new ArrayList<>();
 
     for (Recruitment recruitment : recruitmentPage) {
       List<Tag> tags = recruitment.getRecruitmentTags().stream()
           .map(rt -> rt.getTag())
           .collect(Collectors.toList());
 
-      recruitmentTagMap.put(recruitment, tags);
+      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, new HashSet<>(tags));
+      recruitmentRsList.add(recruitmentRs);
     }
-    return recruitmentTagMap;
+    return recruitmentRsList;
   }
 
 

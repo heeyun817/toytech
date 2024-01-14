@@ -8,8 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RecruitmentDto {
+public class RecruitmentRq {
   private Recruitment recruitment;
   private Set<Tag> tags;
-
 }
