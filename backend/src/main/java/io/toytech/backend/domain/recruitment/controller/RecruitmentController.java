@@ -78,9 +78,9 @@ public class RecruitmentController {
   public ResponseEntity<RecruitmentRs> updateRecruitment(@PathVariable Long id, @RequestBody RecruitmentRq recruitmentRq) {
     try {
       RecruitmentRs updatedRecruitment = service.updateRecruitment(id, recruitmentRq.getRecruitment(), recruitmentRq.getTags());
-      return new ResponseEntity<>(updatedRecruitment, HttpStatus.OK);
+      return ResponseEntity.ok(updatedRecruitment);
     } catch (EntityNotFoundException e) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      return ResponseEntity.notFound().build();
     }
   }
 
@@ -89,9 +89,9 @@ public class RecruitmentController {
   public ResponseEntity<String> deleteRecruitment(@PathVariable Long id) {
     try {
       service.deleteRecruitment(id);
-      return new ResponseEntity<>("성공적으로 삭제되었습니다", HttpStatus.OK);
+      return ResponseEntity.ok("성공적으로 삭제되었습니다");
     } catch (EntityNotFoundException e) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      return ResponseEntity.notFound().build();
     }
   }
 
@@ -106,12 +106,6 @@ public class RecruitmentController {
 
 
 
-  // 모든 글 조회 (조회순)
-//  @GetMapping("/recruitments/view")
-//  public Map<Recruitment, List<Tag>> getAllRecruitmentsByView(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int pageSize) {
-//    Pageable pageable = PageRequest.of(page, pageSize);
-//    return service.findAllByView(pageable);
-//  }
 
   // 검색
 //  @GetMapping("/recruitments/search")
