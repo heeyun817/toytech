@@ -1,5 +1,8 @@
 package io.toytech.backend.domain.recruitment.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import io.toytech.backend.domain.recruitment.domain.Recruitment;
 import io.toytech.backend.domain.recruitment.domain.Tag;
 import io.toytech.backend.domain.recruitment.dto.RecruitmentRq;
@@ -12,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,14 +38,23 @@ public class RecruitmentController {
   // 모든 글 조회 (최신순 :createAt, 조회순:view, 댓글순:comment)
   // 검색
   @GetMapping("/recruitments")
-  public List<RecruitmentRs> getAllRecruitments(
+  public List<EntityModel<RecruitmentRs>> getAllRecruitments(
       @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       @RequestParam(required = false) String keyword,
       @RequestParam(required = false) Boolean active) {
+    List<RecruitmentRs> recruitments;
     if (keyword == null) {
-      return service.findAll(pageable, active);
+      recruitments = service.findAll(pageable, active);
     }
-    else return service.search(pageable,keyword,active);
+    else  recruitments = service.search(pageable,keyword,active);
+
+    return recruitments.stream()
+        .map(recruitment -> {
+          EntityModel<RecruitmentRs> entityModel = EntityModel.of(recruitment);
+          WebMvcLinkBuilder link = linkTo(methodOn(getClass()).getRecruitmentById(recruitment.getId()));
+          entityModel.add(link.withSelfRel());
+          return entityModel;
+        }).toList();
   }
 
   // 특정 글 조회
