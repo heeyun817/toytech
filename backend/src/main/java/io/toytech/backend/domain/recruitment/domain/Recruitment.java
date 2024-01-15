@@ -1,5 +1,6 @@
 package io.toytech.backend.domain.recruitment.domain;
 
+import io.toytech.backend.domain.member.domain.Member;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.*;
 public class Recruitment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", updatable = false)
+  @Column(name = "recruitment_id", updatable = false)
   private long id;
   // 제목
   @Column(name = "title", nullable = false)
@@ -27,11 +28,10 @@ public class Recruitment {
   @Column(name = "content", nullable = false, columnDefinition = "TEXT")
   private String content;
 
-  // 작성자 -> 나중에 Member로 바꾸기
-  //  @JoinColumn(name = "memberId", nullable = false, referencedColumnName = "id")   // foreign key (memberId) references Member (id)
-  //  @ManyToOne(fetch = FetchType.LAZY)
-  @Column(name = "memberId")
-  private long member;
+  // 작성자
+  @JoinColumn(name = "member_id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Member member;
 
   // 태그
   @OneToMany(mappedBy = "recruitment")
@@ -39,12 +39,12 @@ public class Recruitment {
 
   // 작성일
   @CreationTimestamp
-  @Column(name = "createdAt", nullable = false, updatable = false)
+  @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
   // 수정일
   @UpdateTimestamp
-  @Column(name = "updatedAt", nullable = false)
+  @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
 
   // 마감여부

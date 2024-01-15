@@ -16,6 +16,7 @@ public class RecruitmentRs {
   private long id;
   private String title;
   private String content;
+  private Member member;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
   private boolean active;
@@ -27,6 +28,7 @@ public class RecruitmentRs {
     this.id = recruitment.getId();
     this.title = recruitment.getTitle();
     this.content = recruitment.getContent();
+    this.member = recruitment.getMember();
     this.createdAt = recruitment.getCreatedAt();
     this.updatedAt = recruitment.getUpdatedAt();
     this.active = recruitment.isActive();

@@ -17,7 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "recruitmentTag")
+@Table(name = "recruitment_tag")
 @Getter
 @Setter
 @ToString
@@ -25,17 +25,17 @@ import lombok.ToString;
 public class RecruitmentTag {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", updatable = false)
+  @Column(name = "recruitment_tag_id", updatable = false)
   private long id;
 
   @ToString.Exclude
   @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "recruitmentId")
+  @JoinColumn(name = "recruitment_id")
   private Recruitment recruitment;
 
   @ToString.Exclude
   @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "tagId")
+  @JoinColumn(name = "tag_id")
   private Tag tag;
 
   @Builder
