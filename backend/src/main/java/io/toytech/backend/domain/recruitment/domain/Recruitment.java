@@ -30,7 +30,7 @@ public class Recruitment {
 
   // 작성자
   @JoinColumn(name = "member_id")
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   private Member member;
 
   // 태그

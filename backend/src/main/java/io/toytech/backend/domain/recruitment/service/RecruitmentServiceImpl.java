@@ -39,13 +39,13 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     for (Recruitment recruitment : allRecruitments.getContent()) {
       long recruitmentId = recruitment.getId();
       List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(recruitmentId);
-      List<Tag> tags = new ArrayList<>();
+      Set<Tag> tags = new HashSet<>();
       for (RecruitmentTag tagId : tagIds) {
         Tag tag = tagId.getTag();
         tags.add(tag);
       }
 
-      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, new HashSet<>(tags));
+      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, tags);
       recruitmentRsList.add(recruitmentRs);
     }
     return recruitmentRsList;
@@ -58,13 +58,13 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     Recruitment recruitment = recruitmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 ID에 매칭되는 글을 찾을 수 없습니다: " + id));
 
     List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(id);
-    List<Tag> tags = new ArrayList<>();
+    Set<Tag> tags = new HashSet<>();
     for (RecruitmentTag tagId : tagIds) {
       Tag tag = tagId.getTag();
       tags.add(tag);
     }
 
-    return new RecruitmentRs(recruitment, new HashSet<>(tags));
+    return new RecruitmentRs(recruitment, tags);
   }
 
 
@@ -72,7 +72,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
   @Override
   public RecruitmentRs createRecruitment(Recruitment recruitment, Set<Tag> tags){
     Recruitment newRecruitment = recruitmentRepository.save(recruitment);
-    List<Tag> tagList = new ArrayList<>();
+    Set<Tag> tagList = new HashSet<>();
     for (Tag tag : tags) {
       // 태그 이름으로 검색
       Tag tag1 = tagRepository.findByName(tag.getName()).orElseGet(()-> tagRepository.save(tag));
@@ -82,7 +82,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
           .build());
       tagList.add(tag1);
       }
-    return new RecruitmentRs(newRecruitment, new HashSet<>(tagList));
+    return new RecruitmentRs(newRecruitment, tagList);
     }
 
   // 글 수정
@@ -105,7 +105,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
       Recruitment updatedRecruitment = recruitmentRepository.save(oldRecruitment);
 
       // 새로운 태그 추가
-      List<Tag> updatedTags = new ArrayList<>();
+      Set<Tag> updatedTags = new HashSet<>();
       for (Tag tag : tags) {
         Tag newTag = tagRepository.findByName(tag.getName()).orElseGet(() -> tagRepository.save(tag));
         recruitmentTagRepository.save(RecruitmentTag.builder()
@@ -115,7 +115,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         updatedTags.add(newTag);
       }
 
-    return new RecruitmentRs(updatedRecruitment, new HashSet<>(updatedTags));
+    return new RecruitmentRs(updatedRecruitment, updatedTags);
   }
 
   // 글 삭제
@@ -155,13 +155,13 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     for (Recruitment recruitment : recruitments) {
       long recruitmentId = recruitment.getId();
       List<RecruitmentTag> tagIds = recruitmentTagRepository.findByRecruitmentId(recruitmentId);
-      List<Tag> tags = new ArrayList<>();
+      Set<Tag> tags = new HashSet<>();
       for (RecruitmentTag tagId : tagIds) {
         Tag tag = tagId.getTag();
         tags.add(tag);
       }
 
-      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, new HashSet<>(tags));
+      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, tags);
       recruitmentRsList.add(recruitmentRs);
     }
     return recruitmentRsList;
@@ -181,11 +181,11 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     List<RecruitmentRs> recruitmentRsList = new ArrayList<>();
 
     for (Recruitment recruitment : recruitmentPage) {
-      List<Tag> tags = recruitment.getRecruitmentTags().stream()
+      Set<Tag> tags = recruitment.getRecruitmentTags().stream()
           .map(rt -> rt.getTag())
-          .collect(Collectors.toList());
+          .collect(Collectors.toSet());
 
-      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, new HashSet<>(tags));
+      RecruitmentRs recruitmentRs = new RecruitmentRs(recruitment, tags);
       recruitmentRsList.add(recruitmentRs);
     }
     return recruitmentRsList;
