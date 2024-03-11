@@ -16,7 +16,7 @@ public interface RecruitmentService {
 //  Map<Recruitment, List<Tag>> findAllByView(Pageable pageable);
 
   // 게시글 id별 조회
-  RecruitmentRs findById(Long Id);
+  RecruitmentRs findById(Long id);
 
   // 글 작성
   RecruitmentRs createRecruitment(Recruitment recruitment, Set<Tag> tags);

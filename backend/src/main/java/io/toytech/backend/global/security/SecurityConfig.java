@@ -31,10 +31,11 @@ public class SecurityConfig {
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
-      public void addCorsMapping(CorsRegistry registry) {
+      public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
             .allowedMethods("*")
-            .allowedOrigins("http://localhost:3000");
+            .allowedOrigins("http://localhost:3000")
+            .allowCredentials(true);
       }
     };
   }

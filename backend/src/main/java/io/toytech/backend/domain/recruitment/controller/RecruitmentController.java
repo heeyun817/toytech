@@ -35,11 +35,11 @@ public class RecruitmentController {
 
   private final RecruitmentService service;
 
-  // 모든 글 조회 (최신순 :createAt, 조회순:view, 댓글순:comment)
+  // 모든 글 조회 (최신순 :createdAt, 조회순:view, 댓글순:comment)
   // 검색
   @GetMapping("/recruitments")
   public List<EntityModel<RecruitmentRs>> getAllRecruitments(
-      @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
+      @PageableDefault(page = 0, size = 3, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       @RequestParam(required = false) String keyword,
       @RequestParam(required = false) Boolean active) {
     List<RecruitmentRs> recruitments;
@@ -98,7 +98,7 @@ public class RecruitmentController {
   // 태그 검색
   @GetMapping("/recruitments/tagSearch")
   public List<RecruitmentRs> getRecruitmentByTag(
-      @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
+      @PageableDefault(page = 0, size = 3, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       @RequestParam String tag,
       @RequestParam(required = false) Boolean active) {
     return service.findByTag(tag,pageable, active);
